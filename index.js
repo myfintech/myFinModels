@@ -5,7 +5,7 @@ var PlaidAccount = require('./lib/plaidAccount');
 var BalanceModule = require('./lib/balance');
 var InstitutionModule = require('./lib/institution'); 
 var TransactionModule = require('./lib/transaction'); 
-var UserModule = require('./lib/waitListUser')
+var UserModule = require('./lib/user')
 
 
 module.exports = {
