@@ -5,7 +5,8 @@ var PlaidAccount = require('./lib/plaidAccount');
 var BalanceModule = require('./lib/balance');
 var InstitutionModule = require('./lib/institution'); 
 var TransactionModule = require('./lib/transaction'); 
-var UserModule = require('./lib/user')
+var UserModule = require('./lib/user'); 
+var AccessToken = require('./lib/accessToken');
 
 
 module.exports = {
@@ -31,5 +32,7 @@ module.exports = {
   // users
   BaseUser: UserModule.BaseUser, 
   WaitListUser: UserModule.WaitListUser,
-  User: UserModule.User
+  User: UserModule.User, 
+  // acesstoken
+  AccessToken: AccessToken
 }
