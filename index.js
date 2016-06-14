@@ -5,8 +5,8 @@ var PlaidAccount = require('./lib/plaidAccount');
 var BalanceModule = require('./lib/balance');
 var InstitutionModule = require('./lib/institution'); 
 var TransactionModule = require('./lib/transaction'); 
-var User = require('./lib/user')
-var WaitListUser = require('./lib/waitListUser')
+var UserModule = require('./lib/waitListUser')
+
 
 module.exports = {
   // accounts
@@ -29,6 +29,7 @@ module.exports = {
   PlaidTransaction: TransactionModule.PlaidTransaction, 
   YodleeTransaction: TransactionModule.YodleeTransaction,
   // users
-  User: User, 
-  WaitListUser: WaitListUser
+  BaseUser: UserModule.BaseUser, 
+  WaitListUser: UserModule.WaitListUser,
+  User: UserModule.User
 }

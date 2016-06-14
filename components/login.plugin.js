@@ -1,11 +1,10 @@
 "use strict"; 
 
-var errors = require('./errors');
 var crypto = require('crypto');
 var Promise = require('bluebird'); 
 var _ = require('lodash'); 
 var jwt = require('jsonwebtoken'); 
-var config = require('../config/environment');
+var config = require('./config');
 var rp = require('request-promise')
 
 module.exports = function (schema, options) {
@@ -64,7 +63,7 @@ module.exports = function (schema, options) {
         // and is greater than 8 characters long 
 
         if (!doesPasswordMeetCriteria(password)){
-          throw new errors.invalidField('this password does not satisfy criteria')
+          throw new Error('this password does not satisfy criteria')
         }
         this._password = password;
         this.salt = this.makeSalt();
@@ -135,7 +134,7 @@ module.exports = function (schema, options) {
           if (!this.isNew) return next();
 
           if (!validatePresenceOf(this.hashedPassword) && authTypes.indexOf(this.provider) === -1){
-            next(new errors.unauthorized('Invalid password'));
+            next(new Error('Invalid password'));
           }
           else next();
         });
