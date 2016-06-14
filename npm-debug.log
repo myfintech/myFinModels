@@ -1,0 +1,110 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@3.9.5
+3 info using node@v0.10.29
+4 verbose node symlink /usr/local/bin/node
+5 verbose publish [ '.' ]
+6 silly cache add args [ '.', null ]
+7 verbose cache add spec .
+8 silly cache add parsed spec { raw: '.',
+8 silly cache add   scope: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: '.',
+8 silly cache add   spec: '/Users/ayanawilson/MyFin/dataModels',
+8 silly cache add   type: 'directory' }
+9 verbose addLocalDirectory /Users/ayanawilson/.npm/@myfintech/myFinModels/0.0.1/package.tgz not in flight; packing
+10 verbose correctMkdir /Users/ayanawilson/.npm correctMkdir not in flight; initializing
+11 info lifecycle @myfintech/myFinModels@0.0.1~prepublish: @myfintech/myFinModels@0.0.1
+12 silly lifecycle @myfintech/myFinModels@0.0.1~prepublish: no script for prepublish, continuing
+13 verbose tar pack [ '/Users/ayanawilson/.npm/@myfintech/myFinModels/0.0.1/package.tgz',
+13 verbose tar pack   '/Users/ayanawilson/MyFin/dataModels' ]
+14 verbose tarball /Users/ayanawilson/.npm/@myfintech/myFinModels/0.0.1/package.tgz
+15 verbose folder /Users/ayanawilson/MyFin/dataModels
+16 verbose addLocalTarball adding from inside cache /Users/ayanawilson/.npm/@myfintech/myFinModels/0.0.1/package.tgz
+17 verbose correctMkdir /Users/ayanawilson/.npm correctMkdir not in flight; initializing
+18 silly cache afterAdd @myfintech/myFinModels@0.0.1
+19 verbose afterAdd /Users/ayanawilson/.npm/@myfintech/myFinModels/0.0.1/package/package.json not in flight; writing
+20 verbose correctMkdir /Users/ayanawilson/.npm correctMkdir not in flight; initializing
+21 verbose afterAdd /Users/ayanawilson/.npm/@myfintech/myFinModels/0.0.1/package/package.json written
+22 silly publish { name: '@myfintech/myFinModels',
+22 silly publish   version: '0.0.1',
+22 silly publish   description: '- twilio sid, auth_token and phone number must be on `process.env` - `login.plugin.js` assumes that there is a session secret on `process.env` - mongoose encryption requires certs: the user model assumes that there is a `certs` directory with a `test_key.pem` and a `test_sign.pem`',
+22 silly publish   main: 'index.js',
+22 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+22 silly publish   author: { name: 'ayana@myfin.tech' },
+22 silly publish   license: 'MIT',
+22 silly publish   dependencies:
+22 silly publish    { bluebird: '^3.4.0',
+22 silly publish      crypto: '0.0.3',
+22 silly publish      jsonwebtoken: '^7.0.0',
+22 silly publish      mongoose: '^4.5.0',
+22 silly publish      'mongoose-encryption': '^1.3.1',
+22 silly publish      mpath: '^0.2.1',
+22 silly publish      'request-promise': '^3.0.0',
+22 silly publish      twilio: '^2.9.1',
+22 silly publish      underscore: '^1.8.3',
+22 silly publish      kerberos: '~0.0.17' },
+22 silly publish   readme: '#####Certain constraints: \n\n- twilio sid, auth_token and phone number must be on `process.env`\n- `login.plugin.js` assumes that there is a session secret on `process.env`\n- mongoose encryption requires certs: the user model assumes that there is a `certs` directory with a `test_key.pem` and a `test_sign.pem`\n\n\n',
+22 silly publish   readmeFilename: 'README.md',
+22 silly publish   gitHead: '747a919dc7fef02f1060bb0cc8d4335a8f0283ae',
+22 silly publish   _id: '@myfintech/myFinModels@0.0.1',
+22 silly publish   _shasum: '58d6f9bc39f06bcb9548f49ee88e6432745e8482',
+22 silly publish   _from: '.' }
+23 verbose getPublishConfig undefined
+24 silly mapToRegistry name @myfintech/myFinModels
+25 silly mapToRegistry scope (from package name) @myfintech
+26 verbose mapToRegistry no registry URL found in name for scope @myfintech
+27 silly mapToRegistry using default registry
+28 silly mapToRegistry registry https://registry.npmjs.org/
+29 silly mapToRegistry data { raw: '@myfintech/myFinModels',
+29 silly mapToRegistry   scope: '@myfintech',
+29 silly mapToRegistry   name: '@myfintech/myFinModels',
+29 silly mapToRegistry   rawSpec: '',
+29 silly mapToRegistry   spec: 'latest',
+29 silly mapToRegistry   type: 'tag' }
+30 silly mapToRegistry uri https://registry.npmjs.org/@myfintech%2fmyFinModels
+31 verbose publish registryBase https://registry.npmjs.org/
+32 silly publish uploading /Users/ayanawilson/.npm/@myfintech/myFinModels/0.0.1/package.tgz
+33 verbose request uri https://registry.npmjs.org/@myfintech%2fmyFinModels
+34 verbose request sending authorization for write operation
+35 info attempt registry request try #1 at 14:35:45
+36 verbose request using bearer token for auth
+37 verbose request id f0e52c6aa14f5536
+38 http request PUT https://registry.npmjs.org/@myfintech%2fmyFinModels
+39 http 403 https://registry.npmjs.org/@myfintech%2fmyFinModels
+40 verbose headers { 'content-type': 'application/json',
+40 verbose headers   'cache-control': 'max-age=0',
+40 verbose headers   'content-length': '95',
+40 verbose headers   'accept-ranges': 'bytes',
+40 verbose headers   date: 'Tue, 14 Jun 2016 18:35:47 GMT',
+40 verbose headers   via: '1.1 varnish',
+40 verbose headers   connection: 'keep-alive',
+40 verbose headers   'x-served-by': 'cache-atl6250-ATL',
+40 verbose headers   'x-cache': 'MISS',
+40 verbose headers   'x-cache-hits': '0',
+40 verbose headers   'x-timer': 'S1465929346.253589,VS0,VE1095' }
+41 verbose request invalidating /Users/ayanawilson/.npm/registry.npmjs.org/_40myfintech_252fmyFinModels on PUT
+42 error publish Failed PUT 403
+43 verbose stack Error: "You cannot publish over the previously published version 0.0.1." : @myfintech/myFinModels
+43 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+43 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+43 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+43 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:200:22)
+43 verbose stack     at Request.emit (events.js:98:17)
+43 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1067:10)
+43 verbose stack     at Request.emit (events.js:117:20)
+43 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:988:12)
+43 verbose stack     at IncomingMessage.emit (events.js:117:20)
+43 verbose stack     at _stream_readable.js:929:16
+44 verbose statusCode 403
+45 verbose pkgid @myfintech/myFinModels
+46 verbose cwd /Users/ayanawilson/MyFin/dataModels
+47 error Darwin 15.2.0
+48 error argv "node" "/usr/local/bin/npm" "publish"
+49 error node v0.10.29
+50 error npm  v3.9.5
+51 error code E403
+52 error "You cannot publish over the previously published version 0.0.1." : @myfintech/myFinModels
+53 error If you need help, you may report this error at:
+53 error     <https://github.com/npm/npm/issues>
+54 verbose exit [ 1, true ]
