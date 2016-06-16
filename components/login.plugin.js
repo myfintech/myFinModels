@@ -123,13 +123,13 @@ module.exports = function (schema, options) {
 
       schema
         .pre('save', function(next){
-          if (!this.isNew) return next(); 
+          if (!this.isModified("firstName") && !this.isModified("lastName")) return next(); 
           this.yodlee_username = this.firstName + this.lastName + Math.floor( Math.random() * 10000000) + 1;
           this.yodlee_password = this.salt + '!!&a'; 
           next()
         })
 
-      // // password is n
+      // // password is no longer necessary 
       // schema
       //   .pre('save', function(next) {
       //     if (!this.isNew) return next();
@@ -202,6 +202,18 @@ module.exports = function (schema, options) {
           resolve(token);
         })
       })
+    },
+
+    sanitize: function(){
+      return _.omit(this.toJSON(), ['hashedPassword', 'salt']);
+    },
+
+    isAFullUser: function(){
+      var user = this.toJSON();
+      var keys = Object.keys(user); 
+      var okFields = ["password", "id", "isLocked", "__v", "phoneNumber", "firstName", "lastName", "phoneVerificationCodeExpires", "phoneVerificationCode", "provider", "__t", "attempts", "_id", "institutionsLinked", "financialProfile", "cashFlowProfile", "roles"]
+      var diff = _.difference(keys, okFields)
+      return diff.length > 0; 
     },
 
     // this sends an email with a link that 
