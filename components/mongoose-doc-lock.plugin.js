@@ -33,7 +33,8 @@ module.exports = function(schema){
 
   // Set up the increment method
   schema.method(options.incMethod, function (returnVal) {
-  
+    if (typeof this.attempts === 'undefined') this.attempts = 0; 
+
     var now       = Date.now();
     var lockUntil = this.get(options.lockUntilPath);
     var attempts  = this.get(options.attemptsPath);
