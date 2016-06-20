@@ -40,25 +40,26 @@ var models =  {
     AccessToken: AccessToken
   }
 
-module.exports = function(uri, config, onComplete){
+exports.initialize = function(uri, config, onComplete){
 
-  if (config){
-    _.merge(process.env, config)
-  }
-    mongoose.connect(uri, function(err){
-      if(err){ throw err; }
+  if (config)  _.merge(process.env, config)
 
-      var modelsPath = path.join(process.cwd(), '/node_modules/@myfintech/myFinModels/lib/');
+  mongoose.connect(uri, function(err){
+    if(err){ throw err; }
 
-      fs.readdir(modelsPath, function(err, fileList){
-        if(err) throw err;
-        fileList.forEach(function(name) {
-          if(fs.existsSync(name)){
-            require(name);
-          }
-        });
-        onComplete(models)
+    var modelsPath = path.join(process.cwd(), '/node_modules/@myfintech/myFinModels/lib/');
+
+    fs.readdir(modelsPath, function(err, fileList){
+      if(err) throw err;
+      fileList.forEach(function(name) {
+        if(fs.existsSync(name)){
+          require(name);
+        }
       });
+      onComplete(models)
     });
+  });
 }
+
+exports.models = models; 
 
