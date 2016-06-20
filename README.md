@@ -5,11 +5,14 @@
 
 ```javascript 
 
-require('@myfintech/myFinModels').initialize(dbUri, {environmentVariable: 'environmentVariable'}, function(models){
+require('@myfintech/myFinModels').initialize(dbUri, {env: 'env'}, function(models){
   console.log('models', models)
-
 })
 
+
+//// in another file 
+
+var ModularMongooseModels = require('@myfintech/myFinModels').models; 
 
 ```
 
