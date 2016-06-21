@@ -1,18 +1,18 @@
-#####Certain constraints: 
+#####Certain constraints:
 
 - this module currently exports two things: 1) a config function that takes a database uri, environment object, and a fn to be called once the models have been registered; 2) the models
 
 
-```javascript 
+```javascript
 
-require('@myfintech/myFinModels').initialize(dbUri, {env: 'env'}, function(models){
+require('@myfintech/myfinmodels').initialize(dbUri, {env: 'env'}, function(models){
   console.log('models', models)
 })
 
 
-//// in another file 
+//// in another file
 
-var ModularMongooseModels = require('@myfintech/myFinModels').models; 
+var ModularMongooseModels = require('@myfintech/myfinmodels').models;
 
 ```
 
