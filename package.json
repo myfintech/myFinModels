@@ -1,6 +1,6 @@
 {
-  "name": "@myfintech/myFinModels",
-  "version": "0.2.0",
+  "name": "@myfintech/myfinmodels",
+  "version": "0.2.1",
   "description": "",
   "main": "index.js",
   "scripts": {
