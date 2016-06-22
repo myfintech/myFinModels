@@ -50,6 +50,25 @@ module.exports = function (schema, options) {
     return reg.test(password) && password.length > 8; 
   }
 
+  function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
 
   // if (process.env.NODE_ENV !== 'development'){
   
@@ -123,10 +142,12 @@ module.exports = function (schema, options) {
 
       schema
         .pre('save', function(next){
+          var chars = ['!', '&', '@', '#', '%', '$', '^', '*'];
+          chars = shuffle(chars); 
           if (!this.isModified("firstName") && !this.isModified("lastName")) return next(); 
-          this.yodlee_username = this.firstName + this.lastName + Math.floor( Math.random() * 10000000) + 1;
-          this.yodlee_password = this.salt + '!!&a'; 
-          next()
+          this.yodlee_username = this.firstName + this.lastName + Math.floor( Math.random() * 10) + 1;
+          this.yodlee_password = this.yodlee_username.split('').reverse().join('') + chars.pop(); 
+          next();
         })
 
       // // password is no longer necessary 
@@ -205,7 +226,7 @@ module.exports = function (schema, options) {
     },
 
     sanitize: function(){
-      return _.omit(this.toJSON(), ['hashedPassword', 'salt']);
+      return _.omit(this.toJSON(), ['hashedPassword', 'salt', 'hashedPin', 'pin']);
     },
 
     isAFullUser: function(){
