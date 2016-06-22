@@ -143,8 +143,8 @@ module.exports = function (schema, options) {
       schema
         .pre('save', function(next) {
           if (!this.isNew) return next();
-
-          this.roles = ['User']; 
+          if (!this.roles.length) this.roles = ['User']; 
+          if (this.roles.length) this.roles.push('User');
           next();
         });
     // }
