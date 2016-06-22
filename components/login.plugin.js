@@ -136,6 +136,56 @@ module.exports = function (schema, options) {
         return value && value.length;
       };
 
+      var url = 'https://sandboxnxtstage.api.yodlee.com/ysl/private-sandboxnxt9/v1/'
+
+      function getCobSessionToken(){
+        return rp.post({
+            url: url + 'cobrand/login',
+            form: {
+                cobrandLogin: process.env.YODLEE_COBRAND_USERNAME,
+                cobrandPassword: process.env.YODLEE_COBRAND_PASSWORD 
+            }
+        })
+        .then(function(res){
+          var parsed = JSON.parse(res)
+          // console.log('parsed', parsed)
+          if (parsed.errorOccurred) return Promise.reject(parsed.message);
+          return parsed.session.cobSession; 
+        })
+      } 
+
+        function registerUserWithYodlee(opts){
+
+            var signupForm =  { 
+                  "user": {
+                    "loginName": opts.loginName, 
+                     "password": opts.password, 
+                     "email": opts.email,  
+                     "preferences": {
+                      "currency": "USD", 
+                      "dateFormat": "MM/dd/yyyy"
+                     }
+                  }
+              }
+
+          signupForm = JSON.stringify(signupForm)
+          var query = encodeURIComponent(signupForm)
+
+          return getCobSessionToken()
+          .then(function(cobSessionToken) {
+            return rp.post({
+              url: url + 'user/register?registerParam=' + query,
+              headers: {
+                Authorization: 'cobSession=' + cobSessionToken
+              } 
+            })
+          })
+          .then(function(res){
+            var parsedUser = JSON.parse(res)
+            return parsedUser; 
+          })
+        }
+
       /**
       * Pre-save hook
       */
@@ -146,9 +196,29 @@ module.exports = function (schema, options) {
           chars = shuffle(chars); 
           if (!this.isModified("firstName") && !this.isModified("lastName")) return next(); 
           this.yodlee_username = this.firstName + this.lastName + Math.floor( Math.random() * 10) + 1;
-          this.yodlee_password = this.yodlee_username.split('').reverse().join('') + chars.pop(); 
+          this.yodlee_password = this.yodlee_username.split('').reverse().join('') + chars.pop();
           next();
         })
+
+      schema
+        .pre('save', function(next){
+          if (!this.isModified("email")) return next(); 
+          this.constructor.findById(this._id).select("+yodlee_username +yodlee_password")
+          .then(function(user){
+            return registerUserWithYodlee({
+              loginName: this.yodlee_username, 
+              password: this.yodlee_password, 
+              email: this.email
+            })
+          })
+          .then(function(){
+            return next()
+          })
+          .then(null, function(e){
+            return next(new Error('Something went wrong while creating a yodlee user from a myfin user', e));
+          })
+        })
+
 
       // // password is no longer necessary 
       // schema
