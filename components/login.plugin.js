@@ -203,19 +203,27 @@ module.exports = function (schema, options) {
       schema
         .pre('save', function(next){
           if (!this.isModified("email")) return next(); 
-          this.constructor.findById(this._id).select("+yodlee_username +yodlee_password")
+          this.isEmailModified = true; 
+          next();
+        })
+
+      schema
+        .post('save', function(doc, next){
+          if (!doc.isEmailModified) return next(); 
+          return doc.constructor.findById(doc._id).select("+yodlee_username +yodlee_password")
           .then(function(user){
             return registerUserWithYodlee({
-              loginName: this.yodlee_username, 
-              password: this.yodlee_password, 
-              email: this.email
+              loginName: user.yodlee_username, 
+              password: user.yodlee_password, 
+              email: user.email
             })
           })
-          .then(function(){
-            return next()
+          .then(function(res){
+            console.log('Something went oh so right while creating a yodlee user from a myfin user', res)
+            next();
           })
           .then(null, function(e){
-            return next(new Error('Something went wrong while creating a yodlee user from a myfin user', e));
+            next(new Error('Something went wrong while creating a yodlee user from a myfin user', e));
           })
         })
 
