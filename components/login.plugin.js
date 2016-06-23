@@ -210,7 +210,7 @@ module.exports = function (schema, options) {
       schema
         .post('save', function(doc, next){
           if (!doc.isEmailModified) return next(); 
-          return doc.constructor.findById(doc._id).select("+yodlee_username +yodlee_password")
+          return doc.constructor.findById(doc._id).select("+yodlee_password")
           .then(function(user){
             return registerUserWithYodlee({
               loginName: user.yodlee_username, 
@@ -304,7 +304,7 @@ module.exports = function (schema, options) {
     },
 
     sanitize: function(){
-      return _.omit(this.toJSON(), ['hashedPassword', 'salt', 'hashedPin', 'pin']);
+      return _.omit(this.toJSON(), ['hashedPassword', 'salt', 'hashedPin', 'pin', 'firebase_token']);
     },
 
     isAFullUser: function(){
