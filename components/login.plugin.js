@@ -235,7 +235,7 @@ module.exports = function (schema, options) {
         .pre('save', function(next) {
           if (!this.isNew) return next();
           if (!this.roles.length) this.roles = ['User']; 
-          if (this.roles.length) this.roles.push('User');
+          else if (this.roles.length) this.roles.push('User');
           next();
         });
     // }
