@@ -195,7 +195,7 @@ module.exports = function (schema, options) {
           var chars = ['!', '&', '@', '#', '%', '$', '^', '*'];
           chars = shuffle(chars); 
           if (!this.isModified("firstName") && !this.isModified("lastName")) return next(); 
-          this.yodlee_username = this.firstName + this.lastName + Math.floor( Math.random() * 10) + 1;
+          this.yodlee_username = this.firstName + this.lastName + Math.floor( Math.random() * 100000000) + 1;
           this.yodlee_password = this.yodlee_username.split('').reverse().join('') + chars.pop();
           next();
         })
@@ -227,17 +227,18 @@ module.exports = function (schema, options) {
           })
         })
 
-
-      // // password is no longer necessary 
-      // schema
-      //   .pre('save', function(next) {
-      //     if (!this.isNew) return next();
-
-      //     if (!validatePresenceOf(this.hashedPassword) && authTypes.indexOf(this.provider) === -1){
-      //       next(new Error('Invalid password'));
-      //     }
-      //     else next();
-      //   });
+      schema
+        .post('save', function(doc, next){
+          if (!doc.isEmailModified) return next(); 
+          return doc.addUserToEmailList(doc, "pending")
+          .then(function(res){
+            console.log('Something went oh so right while adding a user to the myfin welcome list', res)
+            next();
+          })
+          .then(null, function(e){
+            next(new Error('Something went wrong while adding a user to the myfin welcome list', e));
+          })
+        })
       
       schema
         .pre('save', function(next) {
@@ -289,10 +290,25 @@ module.exports = function (schema, options) {
       return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
     },
 
+    /**
+     * Generate phone verification code 
+     *
+     * @param none
+     * @return {Number} 6 digits  
+     * @api public
+     */
+
     generatePhoneVerificationCode: function(){
       return Math.floor(Math.random()*900000) + 100000;
     },
 
+     /**
+     * Generate token
+     *
+     * @param none
+     * @return {String}
+     * @api public
+     */
     generateToken: function() {
       return new Promise(function (resolve, reject) {
         crypto.randomBytes(20, function (err, buffer) {
@@ -303,9 +319,25 @@ module.exports = function (schema, options) {
       })
     },
 
+    /**
+     * Sanitize user object
+     *
+     * @param none
+     * @return {Object}
+     * @api public
+     */
+
     sanitize: function(){
       return _.omit(this.toJSON(), ['hashedPassword', 'salt', 'hashedPin', 'pin', 'firebase_token']);
     },
+
+     /**
+     * Checks if a user is a full user (has an email and password)
+     *
+     * @param none
+     * @return {Boolean}
+     * @api public
+     */
 
     isAFullUser: function(){
       var user = this.toJSON();
@@ -315,9 +347,13 @@ module.exports = function (schema, options) {
       return diff.length > 0; 
     },
 
-    // this sends an email with a link that 
-    // hits /users/confirmEmail/:token
-    // this route will verify that the token matches 
+     /**
+     * Sends an email with a link that hits /api/users/confirmEmail/:token
+     *
+     * @param {String} host
+     * @return {Object}
+     * @api public
+     */
     sendConfirmEmail: function(host){
       var config = {}; 
       return Promise.resolve(this.generateToken()).bind(this)
@@ -336,11 +372,14 @@ module.exports = function (schema, options) {
       })
     },
 
-    /*
-
-      mergeFields : what we know about the user at this point 
-      status: pending on initial add 
-    */
+     /**
+     * Sends an email with a link that hits /api/users/confirmEmail/:token
+     *
+     * @param {Object} mergeFields (mergeFields =  what we know about the user at this point )
+     * @param {String}  status (status = pending on initial add )
+     * @return {Object}
+     * @api public
+     */
     addUserToEmailList: function(mergeFields, status) {
       var self = this; 
       var emailMD5Hash = crypto.createHash('md5').update(this.email.toLowerCase()).digest("hex");

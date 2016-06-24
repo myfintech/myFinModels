@@ -24,7 +24,7 @@ var all = {
   },
 
   firebase: {
-    clientSecret: process.env.FIREBASE_CLIENT_SECRET
+    clientSecret: process.env.FIREBASE_CLIENT_SECRET || "GARBAGE_VALUE"
   } 
 
 
