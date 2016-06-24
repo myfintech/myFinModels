@@ -8,10 +8,11 @@ var sendMessage = Promise.promisify(client.messages.create);
 var rp = require('request-promise');
 var _ = require('lodash');
 
-var Sms = function(to, msg) {
+var Sms = function(to, msg, mediaUrl) {
   this.to = to;
   this.from = config.twilio.number;
   this.msg = msg;
+  this.mediaUrl = mediaUrl;
 };
 
 // twilio-node 1.4.0 supports callbacks and promises
@@ -27,11 +28,14 @@ Sms.prototype.send = function() {
     return Promise.resolve();
   }
   //returns a promise
-  return sendMessage({
+  var message = {
     to: self.to,
     from: self.from,
-    body: self.msg
-  });
+    body: self.msg,
+  };
+  if (self.mediaUrl) message.mediaUrl = self.mediaUrl
+  // returns a promise
+  return sendMessage(message);
 }
 
 // get the smsHistory between user and admin
@@ -44,13 +48,34 @@ Sms.prototype.get = function() {
     return Promise.resolve();
   }
 
-  var uri = 'https://' + config.twilio.sid + ':' + config.twilio.auth + '@api.twilio.com/2010-04-01/Accounts/' + config.twilio.sid + '/Messages.json';
-  var qs = '?To=' + self.to + '&From=' + config.twilio.number;
+  var baseUri = 'https://' + config.twilio.sid + ':' + config.twilio.auth + '@api.twilio.com'
+  var messagesUri = baseUri + '/2010-04-01/Accounts/' + config.twilio.sid + '/Messages.json';
+  var messagesQueryString  = '?To=' + self.to + '&From=' + config.twilio.number;
   var headers = {'User-Agent': 'Request-Promise'};
 
-  return rp({uri: uri, qs:qs, headers: headers, json: true})
+  return rp({
+    uri: messagesUri,
+    qs:messagesQueryString,
+    headers: headers,
+    json: true
+  })
   .then(function (data) {
-    return _.sortBy(data.messages, function (msg) {
+    var messages = data.messages.map(function(message) {     // build and array of promises (messages with images will have imageUri set)
+      if (message.num_media === "0") return Promise.resolve(message);
+      return rp({
+        uri: baseUri + message.subresource_uris.media,
+        headers: headers,
+        json: true
+      })
+      .then(function(data) {
+        message.imageUri = 'https://api.twilio.com' + data.media_list[0].uri.replace('.json', ''); // for now just the first media item
+        return message;
+      })
+    })
+    return Promise.all(messages);
+  })
+  .then(function (data) {
+    return _.sortBy(data, function (msg) {
       return new Date(msg.date_created)
     })
   })
