@@ -5,40 +5,38 @@ var Promise = require('bluebird');
 var _ = require('lodash'); 
 var jwt = require('jsonwebtoken'); 
 var config = require('./config');
-var rp = require('request-promise')
+var rp = require('request-promise');
 
 module.exports = function (schema, options) {
 
-  var  fieldsToAdd = {    
-    hashedPassword: { type: String, select: false },
-    provider: {type: String },
-    salt: { type: String, select: false },
-  
-    online: {type: Boolean},
-    lastOnline: {type: Date},
+  var fieldsToAdd = {    
+        hashedPassword: { type: String, select: false },
+        provider: {type: String },
+        salt: { type: String, select: false },
+      
+        online: {type: Boolean},
+        lastOnline: {type: Date},
 
-    phoneVerificationCode: {type: String, select: false},
-    phoneVerificationCodeExpires: { type: Date, select: false}, 
+        phoneVerificationCode: {type: String, select: false},
+        phoneVerificationCodeExpires: { type: Date, select: false}, 
 
-    resetPasswordToken: { type: String, select: false },
-    resetPasswordTokenExpires: { type: Date, select: false },
+        resetPasswordToken: { type: String, select: false },
+        resetPasswordTokenExpires: { type: Date, select: false },
 
-    confirmEmailToken: {type: String, select: false}, 
-    confirmEmailTokenExpires: { type: Date, select: false}, 
-    
-    google: {},
-    googleAccessToken: { type: String, select: false },
-    googleRefreshToken: { type: String, select: false },
+        confirmEmailToken: {type: String, select: false}, 
+        confirmEmailTokenExpires: { type: Date, select: false}, 
+        
+        google: {},
+        googleAccessToken: { type: String, select: false },
+        googleRefreshToken: { type: String, select: false },
 
-    linkedIn: {}, 
-    linkedInAccessToken: { type: String, select: false}, 
-    linkedInRefreshToken: { type: String, select: false },
-  
-    facebook: {}, 
-    facebookAccessToken: { type: String, select: false}, 
-    facebookRefreshToken: { type: String, select: false}
-
-
+        linkedIn: {}, 
+        linkedInAccessToken: { type: String, select: false}, 
+        linkedInRefreshToken: { type: String, select: false },
+      
+        facebook: {}, 
+        facebookAccessToken: { type: String, select: false}, 
+        facebookRefreshToken: { type: String, select: false}
   };
 
   schema.add(fieldsToAdd);
@@ -155,18 +153,17 @@ module.exports = function (schema, options) {
       } 
 
         function registerUserWithYodlee(opts){
-
-            var signupForm =  { 
-                  "user": {
-                    "loginName": opts.loginName, 
-                     "password": opts.password, 
-                     "email": opts.email,  
-                     "preferences": {
-                      "currency": "USD", 
-                      "dateFormat": "MM/dd/yyyy"
-                     }
-                  }
-              }
+          var signupForm =  { 
+            "user": {
+              "loginName": opts.loginName, 
+               "password": opts.password, 
+               "email": opts.email,  
+               "preferences": {
+                "currency": "USD", 
+                "dateFormat": "MM/dd/yyyy"
+               }
+            }
+          }
 
           signupForm = JSON.stringify(signupForm)
           var query = encodeURIComponent(signupForm)
@@ -373,7 +370,7 @@ module.exports = function (schema, options) {
     },
 
      /**
-     * Sends an email with a link that hits /api/users/confirmEmail/:token
+     * Adds a user to the mailchimp mailing list so she will receive a welcome email!
      *
      * @param {Object} mergeFields (mergeFields =  what we know about the user at this point )
      * @param {String}  status (status = pending on initial add )
@@ -402,6 +399,13 @@ module.exports = function (schema, options) {
       return rp(options)
     },
     
+    /**
+     * Sends an email with a link that hits /api/users/reset/:token
+     *
+     * @param {String}  host 
+     * @return {Object}
+     * @api public
+     */
     sendReset: function(host) {
       return Promise.resolve(this.generateToken()).bind(this)
       .then(function(token) {

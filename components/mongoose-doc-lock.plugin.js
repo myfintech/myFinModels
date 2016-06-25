@@ -4,8 +4,6 @@ var Promise = require('bluebird');
 
 module.exports = function(schema){
 
-
-
   // defaults; TODO: add options argument
   var options = {
     attemptsPath  : 'attempts',
