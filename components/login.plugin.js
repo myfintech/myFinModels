@@ -339,7 +339,7 @@ module.exports = function (schema, options) {
     isAFullUser: function(){
       var user = this.toJSON();
       var keys = Object.keys(user); 
-      var okFields = ["password", "id", "isLocked", "__v", "phoneNumber", "firstName", "lastName", "phoneVerificationCodeExpires", "phoneVerificationCode", "provider", "__t", "attempts", "_id", "institutionsLinked", "financialProfile", "cashFlowProfile", "roles", "yodlee_username"]
+      var okFields = ["password", "id", "isLocked", "__v", "phoneNumber", "firstName", "lastName", "phoneVerificationCodeExpires", "phoneVerificationCode", "provider", "__t", "attempts", "_id", "institutionsLinked", "financialProfiles", "cashFlowProfiles", "roles", "yodlee_username"]
       var diff = _.difference(keys, okFields)
       return diff.length > 0; 
     },
