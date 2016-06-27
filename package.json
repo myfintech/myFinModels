@@ -9,7 +9,7 @@
   "author": "ayana@myfin.tech",
   "license": "UNLICENSED",
   "dependencies": {
-    "bluebird": "^3.4.0",
+    "bluebird": "2.4.0",
     "crypto": "0.0.3",
     "jsonwebtoken": "^7.0.0",
     "kerberos": "~0.0.17",
