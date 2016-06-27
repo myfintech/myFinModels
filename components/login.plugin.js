@@ -112,22 +112,22 @@ module.exports = function (schema, options) {
         }, 'Password cannot be blank');
 
       // // validate email is not taken 
-      schema
-        .path('email')
-        .validate(function(value, respond) {
-          var self = this;
-          return this.constructor.findOne({email: value})
-          .then(function(user) {
-            if(user) {
-              if(self.id === user.id) return respond(true);
-              return respond(false);
-            }
-            respond(true);
-          })
-          .then(null, function(err){
-            throw err;
-          });
-      }, 'The specified email address is already in use.');
+      // schema
+      //   .path('email')
+      //   .validate(function(value, respond) {
+      //     var self = this;
+      //     return this.constructor.findOne({email: value})
+      //     .then(function(user) {
+      //       if(user) {
+      //         if(self.id === user.id) return respond(true);
+      //         return respond(false);
+      //       }
+      //       respond(true);
+      //     })
+      //     .then(null, function(err){
+      //       throw err;
+      //     });
+      // }, 'The specified email address is already in use.');
 
 
       var validatePresenceOf = function(value) {
@@ -192,7 +192,7 @@ module.exports = function (schema, options) {
           var chars = ['!', '&', '@', '#', '%', '$', '^', '*'];
           chars = shuffle(chars); 
           if (!this.isModified("firstName") && !this.isModified("lastName")) return next(); 
-          this.yodlee_username = this.firstName + this.lastName + Math.floor( Math.random() * 100000000) + 1;
+          this.yodlee_username = this.firstName + this.lastName + this._id.toString();
           this.yodlee_password = this.yodlee_username.split('').reverse().join('') + chars.pop();
           next();
         })
@@ -220,7 +220,8 @@ module.exports = function (schema, options) {
             next();
           })
           .then(null, function(e){
-            next(new Error('Something went wrong while creating a yodlee user from a myfin user', e));
+            console.log('EEEEEEe', e)
+            next(new Error('Something went wrong while creating a yodlee user from a myfin user'));
           })
         })
 
@@ -233,6 +234,7 @@ module.exports = function (schema, options) {
             next();
           })
           .then(null, function(e){
+            console.log('EEEEE', e)
             next(new Error('Something went wrong while adding a user to the myfin welcome list', e));
           })
         })
@@ -376,9 +378,10 @@ module.exports = function (schema, options) {
      * @param {String}  status (status = pending on initial add )
      * @return {Object}
      * @api public
+     * 
+     * find the waitlist doc for this user by email and move their info into the new user doc 
      */
-    addUserToEmailList: function(mergeFields, status) {
-      var self = this; 
+    addUserToEmailList: function(doc, status) {
       var emailMD5Hash = crypto.createHash('md5').update(this.email.toLowerCase()).digest("hex");
       var endpoint = 'https://us12.api.mailchimp.com/3.0/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + emailMD5Hash;
       var options = {
@@ -391,12 +394,16 @@ module.exports = function (schema, options) {
         },
          body: {
             email_type: 'html',
-            email_address: self.email,
+            email_address: this.email,
             status: status,
-            "merge_fields": mergeFields,
+            "merge_fields": {
+              FNAME: doc.firstName, 
+              LNAME: doc.lastName, 
+              PNUMBER: doc.phoneNumber 
+            },
         },
       };
-      return rp(options)
+      return rp(options);
     },
     
     /**
