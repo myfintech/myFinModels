@@ -1,6 +1,6 @@
 {
   "name": "@myfintech/myfinmodels",
-  "version": "0.4.0",
+  "version": "0.4.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "ayana@myfin.tech",
   "license": "UNLICENSED",
   "dependencies": {
+    "@myfintech/mailchimp": "0.0.2",
     "bluebird": "2.4.0",
     "crypto": "0.0.3",
     "firebase-token-generator": "^2.0.0",
