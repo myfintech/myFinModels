@@ -159,7 +159,7 @@ module.exports = function (schema, options) {
             }
         })
         .then(function(res){
-          var parsed = JSON.parse(res);
+          var parsed = JSON.parse(res)
           // console.log('parsed', parsed)
           if (parsed.errorOccurred) return Promise.reject(parsed.message);
           return parsed.session.cobSession; 
@@ -217,6 +217,7 @@ module.exports = function (schema, options) {
         .pre('save', function(next){
           if (!this.isModified("email")) return next(); 
           this.isEmailModified = true; 
+          this.isEmailSet = true;
           next();
         })
 
@@ -240,6 +241,20 @@ module.exports = function (schema, options) {
             next(new Error('Something went wrong while creating a yodlee user from a myfin user'));
           })
         })
+
+      // schema
+      //   .post('save', function(doc, next){
+      //     if (!doc.isEmailModified) return next(); 
+      //     return doc.addUserToEmailList(doc, "pending")
+      //     .then(function(res){
+      //       console.log('Something went oh so right while adding a user to the myfin welcome list', res)
+      //       next();
+      //     })
+      //     .then(null, function(e){
+      //       console.log('EEEEE', e)
+      //       next(new Error('Something went wrong while adding a user to the myfin welcome list', e));
+      //     })
+      //   })
 
       // schema
       //   .post('save', function(doc, next){
@@ -355,11 +370,7 @@ module.exports = function (schema, options) {
      */
 
     isAFullUser: function(){
-      var user = this.toJSON();
-      var keys = Object.keys(user); 
-      var okFields = ["password", "id", "isLocked", "__v", "phoneNumber", "firstName", "lastName", "phoneVerificationCodeExpires", "phoneVerificationCode", "provider", "__t", "attempts", "_id", "institutionsLinked", "financialProfiles", "cashFlowProfiles", "roles", "yodlee_username"]
-      var diff = _.difference(keys, okFields);
-      return diff.length > 0; 
+      return this.isEmailSet === true;
     },
 
      /**
