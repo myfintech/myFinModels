@@ -1,4 +1,4 @@
-"use strict"; 
+// "use strict"; 
 
 var crypto = require('crypto');
 var Promise = require('bluebird'); 
@@ -67,8 +67,17 @@ module.exports = function (schema, options) {
     return array;
   }
 
+  checkRepeat = function (str) {
+    var repeats = /(.)\1/;
+    return repeats.test(str)
+  }
 
-  // if (process.env.NODE_ENV !== 'development'){
+  function removeSequences(str) {
+    return str.split("").filter(function(ele, i, arr) {
+        return ele !== arr[i-1]; }).join("");
+  }
+
+  // if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test'){
   
     /**
     * Virtuals
@@ -134,7 +143,12 @@ module.exports = function (schema, options) {
         return value && value.length;
       };
 
-      var url = 'https://sandboxnxtstage.api.yodlee.com/ysl/private-sandboxnxt9/v1/'
+      // sandbox url
+      // var url = 'https://sandboxnxtstage.api.yodlee.com/ysl/private-sandboxnxt9/v1/'
+
+      // production url
+      var url = 'https://usyirestmaster.api.yodlee.com/ysl/fintechnologies/v1/';
+
 
       function getCobSessionToken(){
         return rp.post({
@@ -145,7 +159,7 @@ module.exports = function (schema, options) {
             }
         })
         .then(function(res){
-          var parsed = JSON.parse(res)
+          var parsed = JSON.parse(res);
           // console.log('parsed', parsed)
           if (parsed.errorOccurred) return Promise.reject(parsed.message);
           return parsed.session.cobSession; 
@@ -165,8 +179,8 @@ module.exports = function (schema, options) {
             }
           }
 
-          signupForm = JSON.stringify(signupForm)
-          var query = encodeURIComponent(signupForm)
+          var signupFormQuery = JSON.stringify(signupForm);
+          var query = encodeURIComponent(signupFormQuery);
 
           return getCobSessionToken()
           .then(function(cobSessionToken) {
@@ -174,11 +188,12 @@ module.exports = function (schema, options) {
               url: url + 'user/register?registerParam=' + query,
               headers: {
                 Authorization: 'cobSession=' + cobSessionToken
-              } 
+              }
+              // json: signupForm 
             })
           })
           .then(function(res){
-            var parsedUser = JSON.parse(res)
+            var parsedUser = JSON.parse(res);
             return parsedUser; 
           })
         }
@@ -193,6 +208,7 @@ module.exports = function (schema, options) {
           chars = shuffle(chars); 
           if (!this.isModified("firstName") && !this.isModified("lastName")) return next(); 
           this.yodlee_username = this.firstName + this.lastName + this._id.toString();
+          this.yodlee_username = removeSequences(this.yodlee_username); 
           this.yodlee_password = this.yodlee_username.split('').reverse().join('') + chars.pop();
           next();
         })
@@ -225,19 +241,19 @@ module.exports = function (schema, options) {
           })
         })
 
-      schema
-        .post('save', function(doc, next){
-          if (!doc.isEmailModified) return next(); 
-          return doc.addUserToEmailList(doc, "pending")
-          .then(function(res){
-            console.log('Something went oh so right while adding a user to the myfin welcome list', res)
-            next();
-          })
-          .then(null, function(e){
-            console.log('EEEEE', e)
-            next(new Error('Something went wrong while adding a user to the myfin welcome list', e));
-          })
-        })
+      // schema
+      //   .post('save', function(doc, next){
+      //     if (!doc.isEmailModified) return next(); 
+      //     return doc.addUserToEmailList(doc, "pending")
+      //     .then(function(res){
+      //       console.log('Something went oh so right while adding a user to the myfin welcome list', res)
+      //       next();
+      //     })
+      //     .then(null, function(e){
+      //       console.log('EEEEE', e)
+      //       next(new Error('Something went wrong while adding a user to the myfin welcome list', e));
+      //     })
+      //   })
       
       schema
         .pre('save', function(next) {
@@ -247,7 +263,7 @@ module.exports = function (schema, options) {
           next();
         });
     // }
-
+// 
   /**
    *Schema Methods
    */
@@ -342,7 +358,7 @@ module.exports = function (schema, options) {
       var user = this.toJSON();
       var keys = Object.keys(user); 
       var okFields = ["password", "id", "isLocked", "__v", "phoneNumber", "firstName", "lastName", "phoneVerificationCodeExpires", "phoneVerificationCode", "provider", "__t", "attempts", "_id", "institutionsLinked", "financialProfiles", "cashFlowProfiles", "roles", "yodlee_username"]
-      var diff = _.difference(keys, okFields)
+      var diff = _.difference(keys, okFields);
       return diff.length > 0; 
     },
 
