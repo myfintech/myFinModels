@@ -20,12 +20,13 @@ var all = {
   twilio: {
     sid: process.env.TWILIO_SID || "GARBAGE_VALUE",
     auth: process.env.TWILIO_AUTH_TOKEN || "GARBAGE_VALUE",
-    number: process.env.TWILIO_NUMBER || "GARBAGE_VALUE"
+    number: process.env.TWILIO_NUMBER || "GARBAGE_VALUE",
+    messagingServiceSidAdminsTalkToUsers: process.env.TWILIO_MESSAGING_SERVICE_ADMINS_TALK_TO_USERS || "GARBAGE_VALUE",
   },
 
   firebase: {
     clientSecret: process.env.FIREBASE_CLIENT_SECRET || "GARBAGE_VALUE"
-  } 
+  }
 
 
 };
