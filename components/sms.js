@@ -21,8 +21,8 @@ Sms.prototype.send = function() {
   if(!self.to) {
     return Promise.reject({ message: 'message not sent. no phone number.' });
   }
-  if(!self.msg) {
-    return Promise.reject({ message: 'message not sent. message was empty.' });
+  if (!self.msg && !self.mediaUrl) {
+    return Promise.reject({ message: 'Message not sent. A message must have either a body or an mediaUrl' });
   }
   if (config.env !== 'production') {
     return Promise.resolve();
@@ -36,49 +36,6 @@ Sms.prototype.send = function() {
   if (self.mediaUrl) message.mediaUrl = self.mediaUrl
   // returns a promise
   return sendMessage(message);
-}
-
-// get the smsHistory between user and admin
-Sms.prototype.get = function() {
-  var self = this;
-  if(!self.to) {
-    return Promise.reject({message: 'cannot get message history. no phone number.' });
-  }
-  if (config.env !== 'production') {
-    return Promise.resolve();
-  }
-
-  var baseUri = 'https://' + config.twilio.sid + ':' + config.twilio.auth + '@api.twilio.com'
-  var messagesUri = baseUri + '/2010-04-01/Accounts/' + config.twilio.sid + '/Messages.json';
-  var messagesQueryString  = '?To=' + self.to + '&From=' + config.twilio.number;
-  var headers = {'User-Agent': 'Request-Promise'};
-
-  return rp({
-    uri: messagesUri,
-    qs:messagesQueryString,
-    headers: headers,
-    json: true
-  })
-  .then(function (data) {
-    var messages = data.messages.map(function(message) {     // build and array of promises (messages with images will have imageUri set)
-      if (message.num_media === "0") return Promise.resolve(message);
-      return rp({
-        uri: baseUri + message.subresource_uris.media,
-        headers: headers,
-        json: true
-      })
-      .then(function(data) {
-        message.imageUri = 'https://api.twilio.com' + data.media_list[0].uri.replace('.json', ''); // for now just the first media item
-        return message;
-      })
-    })
-    return Promise.all(messages);
-  })
-  .then(function (data) {
-    return _.sortBy(data, function (msg) {
-      return new Date(msg.date_created)
-    })
-  })
 }
 
 
