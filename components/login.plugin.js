@@ -120,23 +120,21 @@ module.exports = function (schema, options) {
           return hashedPassword.length;
         }, 'Password cannot be blank');
 
-      // // validate email is not taken 
-      // schema
-      //   .path('email')
-      //   .validate(function(value, respond) {
-      //     var self = this;
-      //     return this.constructor.findOne({email: value})
-      //     .then(function(user) {
-      //       if(user) {
-      //         if(self.id === user.id) return respond(true);
-      //         return respond(false);
-      //       }
-      //       respond(true);
-      //     })
-      //     .then(null, function(err){
-      //       throw err;
-      //     });
-      // }, 'The specified email address is already in use.');
+      // // validate phone number is not taken 
+      schema
+        .path('phoneNumber')
+        .validate(function(value, respond) {
+          return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
+          .then(function(user) {
+            // it IS, IN FACT, unique
+            if (!user) return respond(true); 
+            if (this.id === user.id) return respond(true);
+            else return respond(false);
+          })
+          .then(null, function(err){
+            throw err;
+          });
+      }, 'The specified phone number is already in use.');
 
 
       var validatePresenceOf = function(value) {
