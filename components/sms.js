@@ -32,6 +32,7 @@ Sms.prototype.send = function() {
     to: self.to,
     from: self.from,
     body: self.msg,
+    MessagingServiceSid: config.twilio.messagingServiceSidAdminsTalkToUsers,
   };
   if (self.mediaUrl) message.mediaUrl = self.mediaUrl
   // returns a promise
