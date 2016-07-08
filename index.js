@@ -51,7 +51,7 @@ exports.initialize = function(uri, config, onComplete){
     console.log('models path', modelsPath)
 
     fs.readdir(modelsPath, function(err, fileList){
-      console.log('filelist', filelist)
+      console.log('filelist', fileList)
       if(err) throw err;
       fileList.forEach(function(name) {
         if(fs.existsSync(name)){
