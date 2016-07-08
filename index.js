@@ -45,11 +45,13 @@ exports.initialize = function(uri, config, onComplete){
   if (config)  _.merge(process.env, config)
 
   mongoose.connect(uri, function(err){
-    if(err){ throw err; }
+    if(err) throw err; 
 
     var modelsPath = path.join(process.cwd(), '/node_modules/@myfintech/myfinmodels/lib/');
+    console.log('models path', modelsPath)
 
     fs.readdir(modelsPath, function(err, fileList){
+      console.log('filelist', filelist)
       if(err) throw err;
       fileList.forEach(function(name) {
         if(fs.existsSync(name)){

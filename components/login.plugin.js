@@ -105,12 +105,12 @@ module.exports = function (schema, options) {
 
 
       // // Validate empty email 
-      schema
-        .path('email')
-        .validate(function(email) {
-          if (authTypes.indexOf(this.provider) !== -1) return true;
-          return email.length;
-        }, 'Email cannot be blank');
+      // schema
+      //   .path('email')
+      //   .validate(function(email) {
+      //     if (authTypes.indexOf(this.provider) !== -1) return true;
+      //     return email.length;
+      //   }, 'Email cannot be blank');
       
       // // Validate empty password
       schema
@@ -121,20 +121,21 @@ module.exports = function (schema, options) {
         }, 'Password cannot be blank');
 
       // // validate phone number is not taken 
-      schema
-        .path('phoneNumber')
-        .validate(function(value, respond) {
-          return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
-          .then(function(user) {
-            // it IS, IN FACT, unique
-            if (!user) return respond(true); 
-            if (this.id === user.id) return respond(true);
-            else return respond(false);
-          })
-          .then(null, function(err){
-            throw err;
-          });
-      }, 'The specified phone number is already in use.');
+      // schema
+      //   .path('phoneNumber')
+      //   .validate(function(value, respond) {
+      //     return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
+      //     .then(function(user) {
+      //       // it IS, IN FACT, unique
+      //       if (!user) return respond(true); 
+      //       if (this.id === user.id) return respond(true);
+      //       else return respond(false);
+      //     })
+      //     .then(null, function(err){
+      //       console.log('eeeeeeeeeeeeerrrr in creating phone number', err)
+      //       throw err;
+      //     });
+      // }, 'The specified phone number is already in use.');
 
 
       var validatePresenceOf = function(value) {
