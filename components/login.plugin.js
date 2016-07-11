@@ -105,12 +105,12 @@ module.exports = function (schema, options) {
 
 
       // // Validate empty email 
-      // schema
-      //   .path('email')
-      //   .validate(function(email) {
-      //     if (authTypes.indexOf(this.provider) !== -1) return true;
-      //     return email.length;
-      //   }, 'Email cannot be blank');
+      schema
+        .path('email')
+        .validate(function(email) {
+          if (authTypes.indexOf(this.provider) !== -1) return true;
+          return email.length;
+        }, 'Email cannot be blank');
       
       // // Validate empty password
       schema
@@ -121,21 +121,21 @@ module.exports = function (schema, options) {
         }, 'Password cannot be blank');
 
       // // validate phone number is not taken 
-      // schema
-      //   .path('phoneNumber')
-      //   .validate(function(value, respond) {
-      //     return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
-      //     .then(function(user) {
-      //       // it IS, IN FACT, unique
-      //       if (!user) return respond(true); 
-      //       if (this.id === user.id) return respond(true);
-      //       else return respond(false);
-      //     })
-      //     .then(null, function(err){
-      //       console.log('eeeeeeeeeeeeerrrr in creating phone number', err)
-      //       throw err;
-      //     });
-      // }, 'The specified phone number is already in use.');
+      schema
+        .path('phoneNumber')
+        .validate(function(value, respond) {
+          return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
+          .then(function(user) {
+            // it IS, IN FACT, unique
+            if (!user) return respond(true); 
+            if (this.id === user.id) return respond(true);
+            else return respond(false);
+          })
+          .then(null, function(err){
+            console.log('eeeeeeeeeeeeerrrr in creating phone number', err)
+            throw err;
+          });
+      }, 'The specified phone number is already in use.');
 
 
       var validatePresenceOf = function(value) {
@@ -220,40 +220,27 @@ module.exports = function (schema, options) {
           next();
         })
 
-      // schema
-      //   .post('save', function(doc, next){
-      //     if (!doc.isEmailModified) return next(); 
-      //     return doc.constructor.findById(doc._id).select("+yodlee_password")
-      //     .then(function(user){
-      //       return registerUserWithYodlee({
-      //         loginName: user.yodlee_username, 
-      //         password: user.yodlee_password, 
-      //         email: user.email
-      //       })
-      //     })
-      //     .then(function(res){
-      //       console.log('Something went oh so right while creating a yodlee user from a myfin user', res)
-      //       next();
-      //     })
-      //     .then(null, function(e){
-      //       console.log('EEEEEEe', e)
-      //       next(new Error('Something went wrong while creating a yodlee user from a myfin user'));
-      //     })
-      //   })
+      schema
+        .post('save', function(doc, next){
+          if (!doc.isEmailModified) return next(); 
+          return doc.constructor.findById(doc._id).select("+yodlee_password")
+          .then(function(user){
+            return registerUserWithYodlee({
+              loginName: user.yodlee_username, 
+              password: user.yodlee_password, 
+              email: user.email
+            })
+          })
+          .then(function(res){
+            console.log('Something went oh so right while creating a yodlee user from a myfin user', res)
+            next();
+          })
+          .then(null, function(e){
+            console.log('EEEEEEe', e)
+            next(new Error('Something went wrong while creating a yodlee user from a myfin user'));
+          })
+        })
 
-      // schema
-      //   .post('save', function(doc, next){
-      //     if (!doc.isEmailModified) return next(); 
-      //     return doc.addUserToEmailList(doc, "pending")
-      //     .then(function(res){
-      //       console.log('Something went oh so right while adding a user to the myfin welcome list', res)
-      //       next();
-      //     })
-      //     .then(null, function(e){
-      //       console.log('EEEEE', e)
-      //       next(new Error('Something went wrong while adding a user to the myfin welcome list', e));
-      //     })
-      //   })
 
       // schema
       //   .post('save', function(doc, next){
