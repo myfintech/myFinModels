@@ -151,7 +151,7 @@ module.exports = function (schema, options) {
 
       function getCobSessionToken(){
         return rp.post({
-            // proxy: proxy,
+            proxy: process.env.QUOTAGUARDSTATIC_URL,
             url: url + 'cobrand/login',
             form: {
                 cobrandLogin: process.env.YODLEE_COBRAND_USERNAME,
@@ -185,6 +185,7 @@ module.exports = function (schema, options) {
           return getCobSessionToken()
           .then(function(cobSessionToken) {
             return rp.post({
+              proxy: process.env.QUOTAGUARDSTATIC_URL, 
               url: url + 'user/register?registerParam=' + query,
               headers: {
                 Authorization: 'cobSession=' + cobSessionToken
@@ -227,6 +228,7 @@ module.exports = function (schema, options) {
           if (doc.roles.indexOf("Admin") > -1) return next(); 
           return doc.constructor.findById(doc._id).select("+yodlee_password")
           .then(function(user){
+            console.log('proxy url set on env: ', process.env.QUOTAGUARDSTATIC_URL)
             return registerUserWithYodlee({
               loginName: user.yodlee_username, 
               password: user.yodlee_password, 
@@ -234,7 +236,7 @@ module.exports = function (schema, options) {
             })
           })
           .then(function(res){
-            console.log('Something went oh so right while creating a yodlee user from a myfin user', res)
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~Something went oh so right while creating a yodlee user from a myfin user', res)
             next();
           })
           .then(null, function(e){
