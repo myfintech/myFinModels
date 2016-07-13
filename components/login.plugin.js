@@ -151,6 +151,7 @@ module.exports = function (schema, options) {
 
       function getCobSessionToken(){
         return rp.post({
+            // proxy: proxy,
             url: url + 'cobrand/login',
             form: {
                 cobrandLogin: process.env.YODLEE_COBRAND_USERNAME,
@@ -223,6 +224,7 @@ module.exports = function (schema, options) {
       schema
         .post('save', function(doc, next){
           if (!doc.isEmailModified) return next(); 
+          if (doc.roles.indexOf("Admin") > -1) return next(); 
           return doc.constructor.findById(doc._id).select("+yodlee_password")
           .then(function(user){
             return registerUserWithYodlee({
