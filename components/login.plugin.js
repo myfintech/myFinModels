@@ -222,28 +222,28 @@ module.exports = function (schema, options) {
           next();
         })
 
-      schema
-        .post('save', function(doc, next){
-          if (!doc.isEmailModified) return next(); 
-          if (doc.roles.indexOf("Admin") > -1) return next(); 
-          return doc.constructor.findById(doc._id).select("+yodlee_password")
-          .then(function(user){
-            console.log('proxy url set on env: ', process.env.QUOTAGUARDSTATIC_URL)
-            return registerUserWithYodlee({
-              loginName: user.yodlee_username, 
-              password: user.yodlee_password, 
-              email: user.email
-            })
-          })
-          .then(function(res){
-            console.log('~~~~~~~~~~~~~~~~~~~~~~~~Something went oh so right while creating a yodlee user from a myfin user', res)
-            next();
-          })
-          .then(null, function(e){
-            console.log('EEEEEEe', e)
-            next(new Error('Something went wrong while creating a yodlee user from a myfin user'));
-          })
-        })
+      // schema
+      //   .post('save', function(doc, next){
+      //     if (!doc.isEmailModified) return next(); 
+      //     if (doc.roles.indexOf("Admin") > -1) return next(); 
+      //     return doc.constructor.findById(doc._id).select("+yodlee_password")
+      //     .then(function(user){
+      //       console.log('proxy url set on env: ', process.env.QUOTAGUARDSTATIC_URL)
+      //       return registerUserWithYodlee({
+      //         loginName: user.yodlee_username, 
+      //         password: user.yodlee_password, 
+      //         email: user.email
+      //       })
+      //     })
+      //     .then(function(res){
+      //       console.log('~~~~~~~~~~~~~~~~~~~~~~~~Something went oh so right while creating a yodlee user from a myfin user', res)
+      //       next();
+      //     })
+      //     .then(null, function(e){
+      //       console.log('EEEEEEe', e)
+      //       next(new Error('Something went wrong while creating a yodlee user from a myfin user'));
+      //     })
+      //   })
 
 
       // schema
