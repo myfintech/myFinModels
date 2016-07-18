@@ -1,6 +1,6 @@
 {
   "name": "@myfintech/myfinmodels",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "@myfintech/mailchimp": "0.0.3",
     "bluebird": "2.4.0",
     "crypto": "0.0.3",
+    "firebase": "^2.4.2",
     "firebase-token-generator": "^2.0.0",
     "jsonwebtoken": "^7.0.0",
     "kerberos": "~0.0.17",
@@ -22,8 +23,8 @@
     "mongoose-encryption": "^1.3.1",
     "mpath": "^0.2.1",
     "request-promise": "^3.0.0",
+    "sendgrid": "^2.0.0",
     "twilio": "^2.9.1",
-    "underscore": "^1.8.3",
-    "sendgrid": "^2.0.0"
+    "underscore": "^1.8.3"
   }
 }
