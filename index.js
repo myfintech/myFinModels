@@ -7,6 +7,7 @@ var InstitutionModule = require('./lib/institution');
 var TransactionModule = require('./lib/transaction');
 var UserModule = require('./lib/user');
 var AccessToken = require('./lib/accessToken');
+var CobSessionToken = require('./lib/cobSessionToken');
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -37,7 +38,9 @@ var models =  {
     WaitListUser: UserModule.WaitListUser,
     User: UserModule.User,
     // acesstoken
-    AccessToken: AccessToken
+    AccessToken: AccessToken,
+    // cobSessionToken
+    CobSessionToken: CobSessionToken
   }
 
 exports.initialize = function(uri, config, onComplete){
