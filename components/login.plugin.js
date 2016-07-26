@@ -30,6 +30,10 @@ module.exports = function (schema, options) {
         googleAccessToken: { type: String, select: false },
         googleRefreshToken: { type: String, select: false },
 
+        dwolla: {},
+        dwollaAccessToken: { type: String, select: false },
+        dwollaRefreshToken: { type: String, select: false },
+
         linkedIn: {}, 
         linkedInAccessToken: { type: String, select: false}, 
         linkedInRefreshToken: { type: String, select: false },
