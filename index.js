@@ -8,6 +8,7 @@ var TransactionModule = require('./lib/transaction');
 var UserModule = require('./lib/user');
 var AccessToken = require('./lib/accessToken');
 var CobSessionToken = require('./lib/cobSessionToken');
+var Budget = require('./lib/budget');
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -40,7 +41,8 @@ var models =  {
     // acesstoken
     AccessToken: AccessToken,
     // cobSessionToken
-    CobSessionToken: CobSessionToken
+    CobSessionToken: CobSessionToken, 
+    Budget: Budget
   }
 
 exports.initialize = function(uri, config, onComplete){
