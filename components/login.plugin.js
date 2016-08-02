@@ -49,7 +49,7 @@ module.exports = function (schema, options) {
 
   function doesPasswordMeetCriteria(password){
     var reg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/)
-    return reg.test(password) && password.length > 8; 
+    return reg.test(password) && password.length > 7; 
   }
 
   function shuffle(array) {
