@@ -12,6 +12,7 @@ var Budget = require('./lib/budget');
 var FinancialProfiles = require("./lib/finProfiles"); 
 var CashFlowProfiles = require("./lib/cashFlowProfiles"); 
 var HTRecord = require("./lib/htRecord");
+var NudgeModule = require("./lib/nudge"); 
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -47,6 +48,8 @@ var models =  {
     CobSessionToken: CobSessionToken, 
     Budget: Budget, 
     HTRecord: HTRecord,
+    BaseNudge: NudgeModule.BaseNudge, 
+    BadAccessTokenNudge: NudgeModule.BadAccessTokenNudge,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
