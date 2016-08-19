@@ -11,6 +11,7 @@ var CobSessionToken = require('./lib/cobSessionToken');
 var Budget = require('./lib/budget');
 var FinancialProfiles = require("./lib/finProfiles"); 
 var CashFlowProfiles = require("./lib/cashFlowProfiles"); 
+var HTRecord = require("./lib/htRecord");
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -45,6 +46,7 @@ var models =  {
     // cobSessionToken
     CobSessionToken: CobSessionToken, 
     Budget: Budget, 
+    HTRecord: HTRecord,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
