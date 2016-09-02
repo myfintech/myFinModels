@@ -50,6 +50,9 @@ var models =  {
     HTRecord: HTRecord,
     BaseNudge: NudgeModule.BaseNudge, 
     BadAccessTokenNudge: NudgeModule.BadAccessTokenNudge,
+    LinkNudge: NudgeModule.LinkNudge,
+    InfoNudge: NudgeModule.InfoNudge,
+    Deck: NudgeModule.Deck,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
