@@ -9,6 +9,7 @@ var UserModule = require('./lib/user');
 var AccessToken = require('./lib/accessToken');
 var CobSessionToken = require('./lib/cobSessionToken');
 var Budget = require('./lib/budget');
+var Diff = require("./lib/diff"); 
 var FinancialProfiles = require("./lib/finProfiles"); 
 var CashFlowProfiles = require("./lib/cashFlowProfiles"); 
 var HTRecord = require("./lib/htRecord");
@@ -53,6 +54,7 @@ var models =  {
     LinkNudge: NudgeModule.LinkNudge,
     InfoNudge: NudgeModule.InfoNudge,
     Deck: NudgeModule.Deck,
+    Diff: Diff,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
