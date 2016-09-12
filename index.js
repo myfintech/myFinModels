@@ -13,7 +13,8 @@ var Diff = require("./lib/diff");
 var FinancialProfiles = require("./lib/finProfiles"); 
 var CashFlowProfiles = require("./lib/cashFlowProfiles"); 
 var HTRecord = require("./lib/htRecord");
-var NudgeModule = require("./lib/nudge"); 
+var NudgeModule = require("./lib/nudge");
+var Invest = require("./lib/invest");  
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -55,6 +56,7 @@ var models =  {
     InfoNudge: NudgeModule.InfoNudge,
     Deck: NudgeModule.Deck,
     Diff: Diff,
+    Invest: Invest,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
@@ -63,7 +65,12 @@ exports.initialize = function(uri, config, onComplete){
 
   if (config)  _.merge(process.env, config)
 
-  mongoose.connect(uri, function(err){
+
+   var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
+                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };  
+
+
+  mongoose.connect(uri, options, function(err){
     if(err) throw err; 
 
     var modelsPath = path.join(process.cwd(), '/node_modules/@myfintech/myfinmodels/lib/');
