@@ -66,8 +66,23 @@ exports.initialize = function(uri, config, onComplete){
   if (config)  _.merge(process.env, config)
 
 
-   var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
-                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };  
+   var options = { 
+                    server: 
+                        { 
+                            auto_reconnect: true, 
+                            socketOptions: { 
+                                keepAlive: 1, 
+                                connectTimeoutMS: 300000 
+                            } 
+                        }, 
+                    replset: 
+                        { 
+                            socketOptions: { 
+                                    keepAlive: 300000, 
+                                    connectTimeoutMS : 300000 
+                                } 
+                        } 
+                };  
 
 
   mongoose.connect(uri, options, function(err){
