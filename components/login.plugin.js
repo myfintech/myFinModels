@@ -128,6 +128,7 @@ module.exports = function (schema, options) {
       schema
         .path('phoneNumber')
         .validate(function(value, respond) {
+          if (value === "+11234567890") return respond(true); 
           return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
           .then(function(user) {
             // it IS, IN FACT, unique
