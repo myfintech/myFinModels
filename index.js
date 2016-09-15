@@ -60,6 +60,7 @@ var models =  {
     Invest: Invest,
     BaseSMSRecord: SMSRecordModule.BaseSMSRecord, 
     PayDaySMSRecord: SMSRecordModule.PayDaySMSRecord,
+    BalanceSMSRecord: SMSRecordModule.BalanceSMSRecord,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
