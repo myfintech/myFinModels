@@ -15,6 +15,7 @@ var CashFlowProfiles = require("./lib/cashFlowProfiles");
 var HTRecord = require("./lib/htRecord");
 var NudgeModule = require("./lib/nudge");
 var Invest = require("./lib/invest");  
+var SMSRecordModule = require("./lib/smsRecord"); 
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -57,6 +58,8 @@ var models =  {
     Deck: NudgeModule.Deck,
     Diff: Diff,
     Invest: Invest,
+    BaseSMSRecord: SMSRecordModule.BaseSMSRecord, 
+    PayDaySMSRecord: SMSRecordModule.PayDaySMSRecord,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
