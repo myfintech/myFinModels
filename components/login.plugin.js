@@ -20,8 +20,9 @@ module.exports = function (schema, options) {
         phoneVerificationCode: {type: String, select: false},
         phoneVerificationCodeExpires: { type: Date, select: false}, 
 
-        resetPasswordToken: { type: String, select: false },
-        resetPasswordTokenExpires: { type: Date, select: false },
+        resetPasswordCode: { type: Number, select: false },
+        resetPasswordCodeExpires: { type: Date, select: false },
+        resetAttempts: {type: Number},
 
         confirmEmailToken: {type: String, select: false}, 
         confirmEmailTokenExpires: { type: Date, select: false}, 
@@ -435,24 +436,17 @@ module.exports = function (schema, options) {
      * @return {Object}
      * @api public
      */
-    sendReset: function(host) {
+    sendReset: function() {
       return Promise.resolve(this.generateToken()).bind(this)
       .then(function(token) {
-        this.resetPasswordToken = token;
-        this.resetPasswordTokenExpires = Date.now() + 3600000;
-        var config = {
-          text:
-            "You are receiving this because you (or someone else) have requested the reset of the password for your account."
-            + " Please click on the following link, or paste this into your browser to complete the process:\n\n   " + host+'/reset/'+this.resetPasswordToken + "   "+
-            "If you did not request this, please ignore this email and your password will remain unchanged.",
-          subject: "MyFin Password Reset Request",
-          important: true
-        };
-        return this.sendEmail(config);
+        this.resetPasswordCode = this.generatePhoneVerificationCode();
+        this.resetPasswordCodeExpires = Date.now() + 3600000;
+        var text = "Your reset code is " + this.resetPasswordCode; 
+        return Promise.props({
+          send: this.sendSms(text), 
+          save: this.save()
+        })
       })
-      .then(function () {
-        return this.save();
-      });
     },
 
     /**
