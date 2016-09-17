@@ -40,7 +40,6 @@ var models =  {
     // transactions
     BaseTransaction: TransactionModule.BaseTransaction,
     PlaidTransaction: TransactionModule.PlaidTransaction,
-    YodleeTransaction: TransactionModule.YodleeTransaction,
     // users
     BaseUser: UserModule.BaseUser,
     WaitListUser: UserModule.WaitListUser,
