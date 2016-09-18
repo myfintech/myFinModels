@@ -79,7 +79,8 @@ module.exports = function (schema, options) {
 
   function removeSequences(str) {
     return str.split("").filter(function(ele, i, arr) {
-        return ele !== arr[i-1]; }).join("");
+      return ele !== arr[i-1]; 
+    }).join("");
   }
 
   // if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test'){
@@ -135,6 +136,8 @@ module.exports = function (schema, options) {
             // it IS, IN FACT, unique
             if (!user) return respond(true); 
             if (this.id === user.id) return respond(true);
+            
+            // if (user && this.id !== user.)
             else return respond(false);
           })
           .then(null, function(err){

@@ -16,6 +16,7 @@ var HTRecord = require("./lib/htRecord");
 var NudgeModule = require("./lib/nudge");
 var Invest = require("./lib/invest");  
 var SMSRecordModule = require("./lib/smsRecord"); 
+var ReferralCode = require("./lib/referralCode"); 
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -57,6 +58,7 @@ var models =  {
     Deck: NudgeModule.Deck,
     Diff: Diff,
     Invest: Invest,
+    ReferralCode: ReferralCode, 
     BaseSMSRecord: SMSRecordModule.BaseSMSRecord, 
     PayDaySMSRecord: SMSRecordModule.PayDaySMSRecord,
     BalanceSMSRecord: SMSRecordModule.BalanceSMSRecord,
