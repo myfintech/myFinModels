@@ -331,6 +331,9 @@ module.exports = function (schema, options) {
       return Math.floor(Math.random()*900000) + 100000;
     },
 
+    generateReferralCode: function(){
+      return String(Math.floor(Math.random()*900000) + 100000);
+    },
      /**
      * Generate token
      *
