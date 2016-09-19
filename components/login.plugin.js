@@ -117,7 +117,25 @@ module.exports = function (schema, options) {
           if (authTypes.indexOf(this.provider) !== -1) return true;
           return email.length;
         }, 'Email cannot be blank');
+
+      // // validate email is unique
+      schema
+        .path('email')
+        .validate(function(value, respond) {
+          return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
+          .then(function(user) {
+            // it IS, IN FACT, unique
+            if (!user) return respond(true); 
+            if (this.id === user.id) return respond(true);            
+            else return respond(false);
+          })
+          .then(null, function(err){
+            console.log('eeeeeeeeeeeeerrrr in creating an email', err)
+            throw err;
+          });
+      }, 'The specified email is already in use.');
       
+
       // // Validate empty password
       schema
         .path('hashedPassword')
@@ -145,6 +163,7 @@ module.exports = function (schema, options) {
             throw err;
           });
       }, 'The specified phone number is already in use.');
+
 
 
       var validatePresenceOf = function(value) {
