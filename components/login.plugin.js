@@ -225,9 +225,10 @@ module.exports = function (schema, options) {
 
       schema
         .pre('save', function(next){
-          if (!this.isModified("email")) return next(); 
-          this.isEmailModified = true; 
-          this.isEmailSet = true;
+          if (!this.isModified("hashedPassword")) return next(); 
+          // this.isEmailModified = true; 
+          // this.isEmailSet = true;
+          this.isPasswordSet = true; 
           next();
         })
 
@@ -372,7 +373,7 @@ module.exports = function (schema, options) {
      */
 
     isAFullUser: function(){
-      return this.isEmailSet === true;
+      return this.isPasswordSet === true;
     },
 
      /**
