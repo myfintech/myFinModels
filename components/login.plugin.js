@@ -170,77 +170,10 @@ module.exports = function (schema, options) {
         return value && value.length;
       };
 
-      // sandbox url
-      // var url = 'https://sandboxnxtstage.api.yodlee.com/ysl/private-sandboxnxt9/v1/'
-
-      // production url
-      var url = 'https://usyirestmaster.api.yodlee.com/ysl/fintechnologies/v1/';
-
-
-      function getCobSessionToken(){
-        return rp.post({
-            proxy: process.env.QUOTAGUARDSTATIC_URL,
-            url: url + 'cobrand/login',
-            form: {
-                cobrandLogin: process.env.YODLEE_COBRAND_USERNAME,
-                cobrandPassword: process.env.YODLEE_COBRAND_PASSWORD 
-            }
-        })
-        .then(function(res){
-          var parsed = JSON.parse(res)
-          // console.log('parsed', parsed)
-          if (parsed.errorOccurred) return Promise.reject(parsed.message);
-          return parsed.session.cobSession; 
-        })
-      } 
-
-        function registerUserWithYodlee(opts){
-          var signupForm =  { 
-            "user": {
-              "loginName": opts.loginName, 
-               "password": opts.password, 
-               "email": opts.email,  
-               "preferences": {
-                "currency": "USD", 
-                "dateFormat": "MM/dd/yyyy"
-               }
-            }
-          }
-
-          var signupFormQuery = JSON.stringify(signupForm);
-          var query = encodeURIComponent(signupFormQuery);
-
-          return getCobSessionToken()
-          .then(function(cobSessionToken) {
-            return rp.post({
-              proxy: process.env.QUOTAGUARDSTATIC_URL, 
-              url: url + 'user/register?registerParam=' + query,
-              headers: {
-                Authorization: 'cobSession=' + cobSessionToken
-              }
-              // json: signupForm 
-            })
-          })
-          .then(function(res){
-            var parsedUser = JSON.parse(res);
-            return parsedUser; 
-          })
-        }
 
       /**
       * Pre-save hook
       */
-
-      schema
-        .pre('save', function(next){
-          var chars = ['!', '&', '@', '#', '%', '$', '^', '*'];
-          chars = shuffle(chars); 
-          if (!this.isModified("firstName") && !this.isModified("lastName")) return next(); 
-          this.yodlee_username = this.firstName + this.lastName + this._id.toString();
-          this.yodlee_username = removeSequences(this.yodlee_username); 
-          this.yodlee_password = this.yodlee_username.split('').reverse().join('') + chars.pop();
-          next();
-        })
 
       schema
         .pre('save', function(next){
@@ -250,44 +183,6 @@ module.exports = function (schema, options) {
           this.isPasswordSet = true; 
           next();
         })
-
-      // schema
-      //   .post('save', function(doc, next){
-      //     if (!doc.isEmailModified) return next(); 
-      //     if (doc.roles.indexOf("Admin") > -1) return next(); 
-      //     return doc.constructor.findById(doc._id).select("+yodlee_password")
-      //     .then(function(user){
-      //       console.log('proxy url set on env: ', process.env.QUOTAGUARDSTATIC_URL)
-      //       return registerUserWithYodlee({
-      //         loginName: user.yodlee_username, 
-      //         password: user.yodlee_password, 
-      //         email: user.email
-      //       })
-      //     })
-      //     .then(function(res){
-      //       console.log('~~~~~~~~~~~~~~~~~~~~~~~~Something went oh so right while creating a yodlee user from a myfin user', res)
-      //       next();
-      //     })
-      //     .then(null, function(e){
-      //       console.log('EEEEEEe', e)
-      //       next(new Error('Something went wrong while creating a yodlee user from a myfin user'));
-      //     })
-      //   })
-
-
-      // schema
-      //   .post('save', function(doc, next){
-      //     if (!doc.isEmailModified) return next(); 
-      //     return doc.addUserToEmailList(doc, "pending")
-      //     .then(function(res){
-      //       console.log('Something went oh so right while adding a user to the myfin welcome list', res)
-      //       next();
-      //     })
-      //     .then(null, function(e){
-      //       console.log('EEEEE', e)
-      //       next(new Error('Something went wrong while adding a user to the myfin welcome list', e));
-      //     })
-      //   })
       
       schema
         .pre('save', function(next) {
@@ -380,7 +275,7 @@ module.exports = function (schema, options) {
      */
 
     sanitize: function(){
-      return _.omit(this.toJSON(), ['hashedPassword', 'salt', 'hashedPin', 'pin', 'firebase_token']);
+      return _.omit(this.toJSON(), ['hashedPassword', 'salt', 'hashedPin', 'firebase_token']);
     },
 
      /**
