@@ -5,6 +5,7 @@ var config = require('./config');
 var Promise = require('bluebird');
 var client = twilio(config.twilio.sid, config.twilio.auth);
 var sendMessage = Promise.promisify(client.messages.create);
+var getMessageList = Promise.promisify(client.messages.list);
 var rp = require('request-promise');
 var _ = require('lodash');
 
@@ -38,6 +39,16 @@ Sms.prototype.send = function() {
   // returns a promise
   return sendMessage(message);
 }
+
+// the config argument is an object with key vals for the query documented here
+// https://www.twilio.com/docs/api/rest/message#list
+Sms.prototype.getMessageList = function(config) {
+  return getMessageList(config)
+  .then(function(data) {
+    return data.messages;
+  })
+}
+
 
 
 module.exports = Sms;
