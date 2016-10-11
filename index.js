@@ -16,6 +16,7 @@ var HTRecord = require("./lib/htRecord");
 var NudgeModule = require("./lib/nudge");
 var Invest = require("./lib/invest");  
 var SMSRecordModule = require("./lib/smsRecord"); 
+var UserCohorts = require("./lib/cohorts"); 
 var ReferralCode = require("./lib/referralCode"); 
 var mongoose = require('mongoose');
 var fs = require('fs');
@@ -58,6 +59,7 @@ var models =  {
     Deck: NudgeModule.Deck,
     Diff: Diff,
     Invest: Invest,
+    UserCohorts: UserCohorts,
     ReferralCode: ReferralCode, 
     BaseSMSRecord: SMSRecordModule.BaseSMSRecord, 
     PayDaySMSRecord: SMSRecordModule.PayDaySMSRecord,
