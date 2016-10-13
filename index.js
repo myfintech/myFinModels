@@ -18,6 +18,7 @@ var Invest = require("./lib/invest");
 var SMSRecordModule = require("./lib/smsRecord"); 
 var UserCohorts = require("./lib/cohorts"); 
 var ReferralCode = require("./lib/referralCode"); 
+var QueueModule = require("./lib/queue"); 
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -66,6 +67,8 @@ var models =  {
     BalanceSMSRecord: SMSRecordModule.BalanceSMSRecord,
     BankFeeSMSRecord: SMSRecordModule.BankFeeSMSRecord,
     QuoteSMSRecord: SMSRecordModule.QuoteSMSRecord, 
+    BaseQueue: QueueModule.BaseQueue, 
+    InspirationQueue: QueueModule.InspirationQueue,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
