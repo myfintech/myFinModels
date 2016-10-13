@@ -65,6 +65,7 @@ var models =  {
     PayDaySMSRecord: SMSRecordModule.PayDaySMSRecord,
     BalanceSMSRecord: SMSRecordModule.BalanceSMSRecord,
     BankFeeSMSRecord: SMSRecordModule.BankFeeSMSRecord,
+    QuoteSMSRecord: SMSRecordModule.QuoteSMSRecord, 
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
