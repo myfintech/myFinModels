@@ -67,6 +67,7 @@ var models =  {
     BalanceSMSRecord: SMSRecordModule.BalanceSMSRecord,
     BankFeeSMSRecord: SMSRecordModule.BankFeeSMSRecord,
     QuoteSMSRecord: SMSRecordModule.QuoteSMSRecord, 
+    TopSpendSMSRecord: SMSRecordModule.TopSpendSMSRecord,
     BaseQueue: QueueModule.BaseQueue, 
     InspirationQueue: QueueModule.InspirationQueue,
     FinancialProfiles: FinancialProfiles, 
