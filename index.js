@@ -70,6 +70,7 @@ var models =  {
     TopSpendSMSRecord: SMSRecordModule.TopSpendSMSRecord,
     BaseQueue: QueueModule.BaseQueue, 
     InspirationQueue: QueueModule.InspirationQueue,
+    PayDayQueue: QueueModule.PayDayQueue,
     FinancialProfiles: FinancialProfiles, 
     CashFlowProfiles: CashFlowProfiles
   }
