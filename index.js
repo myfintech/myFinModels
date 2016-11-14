@@ -1,4 +1,4 @@
-"use strict"; 
+"use strict";
 
 var AccountModule = require('./lib/account');
 var PlaidAccount = require('./lib/plaidAccount');
@@ -9,18 +9,19 @@ var UserModule = require('./lib/user');
 var AccessToken = require('./lib/accessToken');
 var CobSessionToken = require('./lib/cobSessionToken');
 var Budget = require('./lib/budget');
-var Diff = require("./lib/diff"); 
-var FinancialProfiles = require("./lib/finProfiles"); 
-var CashFlowProfiles = require("./lib/cashFlowProfiles"); 
+var Diff = require("./lib/diff");
+var FinancialProfiles = require("./lib/finProfiles");
+var CashFlowProfiles = require("./lib/cashFlowProfiles");
 var HTRecord = require("./lib/htRecord");
 var NudgeModule = require("./lib/nudge");
-var Invest = require("./lib/invest");  
-var SMSRecordModule = require("./lib/smsRecord"); 
-var UserCohorts = require("./lib/cohorts"); 
-var ReferralCode = require("./lib/referralCode"); 
-var QueueModule = require("./lib/queue"); 
-var Tracked = require("./lib/tracked"); 
-var Entity = require("./lib/entities"); 
+var Invest = require("./lib/invest");
+var SMSRecordModule = require("./lib/smsRecord");
+var UserCohorts = require("./lib/cohorts");
+var ReferralCode = require("./lib/referralCode");
+var QueueModule = require("./lib/queue");
+var Tracked = require("./lib/tracked");
+var Entity = require("./lib/entities");
+var Join = require("./lib/join");
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -52,10 +53,10 @@ var models =  {
     // acesstoken
     AccessToken: AccessToken,
     // cobSessionToken
-    CobSessionToken: CobSessionToken, 
-    Budget: Budget, 
+    CobSessionToken: CobSessionToken,
+    Budget: Budget,
     HTRecord: HTRecord,
-    BaseNudge: NudgeModule.BaseNudge, 
+    BaseNudge: NudgeModule.BaseNudge,
     BadAccessTokenNudge: NudgeModule.BadAccessTokenNudge,
     LinkNudge: NudgeModule.LinkNudge,
     InfoNudge: NudgeModule.InfoNudge,
@@ -63,19 +64,23 @@ var models =  {
     Diff: Diff,
     Invest: Invest,
     UserCohorts: UserCohorts,
-    ReferralCode: ReferralCode, 
-    BaseSMSRecord: SMSRecordModule.BaseSMSRecord, 
+    ReferralCode: ReferralCode,
+    BaseSMSRecord: SMSRecordModule.BaseSMSRecord,
     PayDaySMSRecord: SMSRecordModule.PayDaySMSRecord,
     BalanceSMSRecord: SMSRecordModule.BalanceSMSRecord,
     BankFeeSMSRecord: SMSRecordModule.BankFeeSMSRecord,
-    QuoteSMSRecord: SMSRecordModule.QuoteSMSRecord, 
+    QuoteSMSRecord: SMSRecordModule.QuoteSMSRecord,
     TopSpendSMSRecord: SMSRecordModule.TopSpendSMSRecord,
-    BaseQueue: QueueModule.BaseQueue, 
+    InterestChargedSMSRecord: SMSRecordModule.InterestChargedSMSRecord,
+    LowBalanceSMSRecord: SMSRecordModule.LowBalanceSMSRecord,
+    RefundToCreditCardSMSRecord: SMSRecordModule.RefundToCreditCardSMSRecord,
+    BaseQueue: QueueModule.BaseQueue,
     InspirationQueue: QueueModule.InspirationQueue,
     PayDayQueue: QueueModule.PayDayQueue,
     Tracked: Tracked,
+    Join: Join,
     Entity: Entity,
-    FinancialProfiles: FinancialProfiles, 
+    FinancialProfiles: FinancialProfiles,
     CashFlowProfiles: CashFlowProfiles
   }
 
@@ -84,27 +89,27 @@ exports.initialize = function(uri, config, onComplete){
   if (config)  _.merge(process.env, config)
 
 
-   var options = { 
-                    server: 
-                        { 
-                            auto_reconnect: true, 
-                            socketOptions: { 
-                                keepAlive: 1, 
-                                connectTimeoutMS: 300000 
-                            } 
-                        }, 
-                    replset: 
-                        { 
-                            socketOptions: { 
-                                    keepAlive: 300000, 
-                                    connectTimeoutMS : 300000 
-                                } 
-                        } 
-                };  
+   var options = {
+                    server:
+                        {
+                            auto_reconnect: true,
+                            socketOptions: {
+                                keepAlive: 1,
+                                connectTimeoutMS: 300000
+                            }
+                        },
+                    replset:
+                        {
+                            socketOptions: {
+                                    keepAlive: 300000,
+                                    connectTimeoutMS : 300000
+                                }
+                        }
+                };
 
 
   mongoose.connect(uri, options, function(err){
-    if(err) throw err; 
+    if(err) throw err;
 
     var modelsPath = path.join(process.cwd(), '/node_modules/@myfintech/myfinmodels/lib/');
 
