@@ -8,11 +8,12 @@ var sendMessage = Promise.promisify(client.messages.create);
 var rp = require('request-promise');
 var _ = require('lodash');
 
-var Sms = function(to, msg, mediaUrl) {
+var Sms = function(to, msg, mediaUrl, statusCallback) {
   this.to = to;
   this.from = config.twilio.number;
   this.msg = msg;
   this.mediaUrl = mediaUrl;
+  this.statusCallback = statusCallback;
 };
 
 // twilio-node 1.4.0 supports callbacks and promises
@@ -30,11 +31,13 @@ Sms.prototype.send = function() {
   //returns a promise
   var message = {
     to: self.to,
-    from: self.from,
+    from: 'MG84a128a9ccf3ee83a1275ed9f89f6224',
     body: self.msg,
-    MessagingServiceSid: config.twilio.messagingServiceSidAdminsTalkToUsers,
+    // MessagingServiceSid: config.twilio.messagingServiceSidAdminsTalkToUsers,
+    // MessagingServiceSid: 'MG84a128a9ccf3ee83a1275ed9f89f6224',
   };
-  if (self.mediaUrl) message.mediaUrl = self.mediaUrl
+  if (self.mediaUrl) message.mediaUrl = self.mediaUrl;
+  if (self.statusCallback) message.statusCallback = self.statusCallback;
   // returns a promise
   return sendMessage(message);
 }
