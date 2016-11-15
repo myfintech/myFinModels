@@ -20,7 +20,8 @@ var UserCohorts = require("./lib/cohorts");
 var ReferralCode = require("./lib/referralCode");
 var QueueModule = require("./lib/queue");
 var Tracked = require("./lib/tracked");
-// var Entity = require("./lib/entities");
+var Entity = require("./lib/entities");
+
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
@@ -70,11 +71,14 @@ var models =  {
     BankFeeSMSRecord: SMSRecordModule.BankFeeSMSRecord,
     QuoteSMSRecord: SMSRecordModule.QuoteSMSRecord,
     TopSpendSMSRecord: SMSRecordModule.TopSpendSMSRecord,
+    InterestChargedSMSRecord: SMSRecordModule.InterestChargedSMSRecord,
+    LowBalanceSMSRecord: SMSRecordModule.LowBalanceSMSRecord,
+    RefundToCreditCardSMSRecord: SMSRecordModule.RefundToCreditCardSMSRecord,
     BaseQueue: QueueModule.BaseQueue,
     InspirationQueue: QueueModule.InspirationQueue,
     PayDayQueue: QueueModule.PayDayQueue,
     Tracked: Tracked,
-    // Entity: Entity,
+    Entity: Entity,
     FinancialProfiles: FinancialProfiles,
     CashFlowProfiles: CashFlowProfiles
   }
