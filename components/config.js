@@ -22,6 +22,7 @@ var all = {
     auth: process.env.TWILIO_AUTH_TOKEN || "GARBAGE_VALUE",
     number: process.env.TWILIO_NUMBER || "GARBAGE_VALUE",
     messagingServiceSidAdminsTalkToUsers: process.env.TWILIO_MESSAGING_SERVICE_ADMINS_TALK_TO_USERS || "GARBAGE_VALUE",
+    messagingServiceSidMyFinTalksToUsers: process.env.TWILIO_MESSAGING_SERVICE_MYFIN_TALKS_TO_USERS || 'GARBAGE_VALUE',
   },
 
   firebase: {

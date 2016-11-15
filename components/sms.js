@@ -10,7 +10,7 @@ var _ = require('lodash');
 
 var Sms = function(to, msg, mediaUrl, statusCallback) {
   this.to = to;
-  this.from = config.twilio.number;
+  this.from = config.twilio.messagingServiceSidMyFinTalksToUsers;
   this.msg = msg;
   this.mediaUrl = mediaUrl;
   this.statusCallback = statusCallback;
@@ -31,10 +31,8 @@ Sms.prototype.send = function() {
   //returns a promise
   var message = {
     to: self.to,
-    from: 'MG84a128a9ccf3ee83a1275ed9f89f6224',
+    from: self.from,
     body: self.msg,
-    // MessagingServiceSid: config.twilio.messagingServiceSidAdminsTalkToUsers,
-    // MessagingServiceSid: 'MG84a128a9ccf3ee83a1275ed9f89f6224',
   };
   if (self.mediaUrl) message.mediaUrl = self.mediaUrl;
   if (self.statusCallback) message.statusCallback = self.statusCallback;
