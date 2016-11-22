@@ -21,6 +21,7 @@ var ReferralCode = require("./lib/referralCode");
 var QueueModule = require("./lib/queue");
 var Tracked = require("./lib/tracked");
 var Entity = require("./lib/entities");
+var ModificationModule = require("./lib/modification");
 
 var mongoose = require('mongoose');
 var fs = require('fs');
@@ -80,7 +81,8 @@ var models =  {
     Tracked: Tracked,
     Entity: Entity,
     FinancialProfiles: FinancialProfiles,
-    CashFlowProfiles: CashFlowProfiles
+    CashFlowProfiles: CashFlowProfiles,
+    TransactionModification: ModificationModule.TransactionModification
   }
 
 exports.initialize = function(uri, config, onComplete){
