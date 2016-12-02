@@ -22,6 +22,7 @@ var QueueModule = require("./lib/queue");
 var Tracked = require("./lib/tracked");
 var Entity = require("./lib/entities");
 var ModificationModule = require("./lib/modification");
+var BaseSMSReport = require("./lib/smsReport"); 
 
 var mongoose = require('mongoose');
 var fs = require('fs');
@@ -82,7 +83,8 @@ var models =  {
     Entity: Entity,
     FinancialProfiles: FinancialProfiles,
     CashFlowProfiles: CashFlowProfiles,
-    TransactionModification: ModificationModule.TransactionModification
+    TransactionModification: ModificationModule.TransactionModification, 
+    BaseSMSReport: BaseSMSReport
   }
 
 exports.initialize = function(uri, config, onComplete){
