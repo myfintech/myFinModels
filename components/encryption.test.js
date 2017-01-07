@@ -16,7 +16,7 @@ describe('encryption.js', () => {
       var val = encrypt(null)
       expect(val).toBe(null);
     })
-    
+  
     test('it should return undefined when passed undefined', () => {
       var val = encrypt(undefined)
       expect(val).toBe(undefined);
@@ -106,5 +106,67 @@ describe('encryption.js', () => {
   
   
 })
+
+// query operators that we need to support
+// $eq : []
+// $ne : []
+// $in : []
+// $nin : []
+// $or : []
+// $and : []
+// $not : []
+// $nor : []
+
+
+// Covered Need to test
+// User.findOne({phoneNumber:req.body.phoneNumber, hashedPassword: {$ne: null} })
+// User.findOne({phoneNumber: req.body.phoneNumber})
+// return BaseUser.findOne({phoneNumber: p})
+
+// Not Covered
+
+// User.find({
+//   $and: [
+//     {phoneNumber: {$ne: null} },
+//     {phoneNumber: {$nin: ["+11234567890", "+10987654321"] }} 
+//   ],  
+//   hasSeenProfile: true
+// }) // find users who should be texted
+
+// BaseUser.find({dateCreated: {$lt: aWeekAgo}, hasSeenProfile: true, $and: [{phoneNumber: {$ne: null} }, {phoneNumber: {$nin: ["+11234567890", "+10987654321"] }} ] }),
+// User.find({sourceInstitutions: {$ne: []}, dateCreated: {$lt: oneWeekAgo}, $and:[ {phoneNumber: {$ne: null}}, {phoneNumber: {$nin: ["+11234567890", "+10987654321"]}} ]})
+// users.find({email: {$in: listOfEmails }, __t: "User" }).toArray(function(err, users) {
+// users.find({email: {$in: listOfEmails }, __t: "User" }).toArray(function(err, users) {
+
+
+
+// categories of not covered
+// simple $ne
+// User.find({phoneNumber: {$ne: null})
+// 
+// 
+// $and:[ {phoneNumber: {$ne: null}}, {phoneNumber: {$nin: ["+11234567890", "+10987654321"]}}]
+// 
+// 
+// see [relevantProp]
+// if [relevantProp] is a string
+//   return modified query with encrypted string
+// else
+//   for 
+//   var keys Object.keys(relevantProp)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
