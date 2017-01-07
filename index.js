@@ -23,6 +23,7 @@ var Tracked = require("./lib/tracked");
 var Entity = require("./lib/entities");
 var ModificationModule = require("./lib/modification");
 var BaseSMSReport = require("./lib/smsReport"); 
+var encryption = require("./components/encryption");
 
 var mongoose = require('mongoose');
 var fs = require('fs');
@@ -84,7 +85,8 @@ var models =  {
     FinancialProfiles: FinancialProfiles,
     CashFlowProfiles: CashFlowProfiles,
     TransactionModification: ModificationModule.TransactionModification, 
-    BaseSMSReport: BaseSMSReport
+    BaseSMSReport: BaseSMSReport,
+    encryption: encryption
   }
 
 exports.initialize = function(uri, config, onComplete){
