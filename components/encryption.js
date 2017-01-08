@@ -24,19 +24,13 @@ function encryptArray (arr) {
     }
   })
 }
- 
+
 function decrypt(text) {
-    if (typeof text !== "string") return text;
-    console.log(text);
-    try {
-      var decipher = crypto.createDecipher(algorithm, password)
-      var dec = decipher.update(text,'hex','utf8')
-      dec += decipher.final('utf8');
-      return dec;
-    } catch (e) {
-      console.log('this text fucked it up', text);
-      throw 'what the fuck?'
-    }
+  if (typeof text !== "string") return text;
+  var decipher = crypto.createDecipher(algorithm, password)
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  return dec;
 }
 
 
