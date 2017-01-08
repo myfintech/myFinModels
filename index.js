@@ -86,7 +86,7 @@ var models =  {
     CashFlowProfiles: CashFlowProfiles,
     TransactionModification: ModificationModule.TransactionModification, 
     BaseSMSReport: BaseSMSReport,
-    encryption: encryption
+    encryption: encryption,
   }
 
 exports.initialize = function(uri, config, onComplete){

@@ -33,11 +33,10 @@ function decrypt(text) {
   return dec;
 }
 
-
-
-
 module.exports = {
   encrypt: encrypt,
   decrypt: decrypt,
   encryptArray: encryptArray
 }
+
+
