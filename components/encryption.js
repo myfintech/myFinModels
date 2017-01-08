@@ -24,20 +24,19 @@ function encryptArray (arr) {
     }
   })
 }
- 
+
 function decrypt(text) {
-    if (typeof text !== "string") return text;
-    var decipher = crypto.createDecipher(algorithm, password)
-    var dec = decipher.update(text,'hex','utf8')
-    dec += decipher.final('utf8');
-    return dec;
+  if (typeof text !== "string") return text;
+  var decipher = crypto.createDecipher(algorithm, password)
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  return dec;
 }
-
-
-
 
 module.exports = {
   encrypt: encrypt,
   decrypt: decrypt,
   encryptArray: encryptArray
 }
+
+

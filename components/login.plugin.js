@@ -6,6 +6,7 @@ var _ = require('lodash');
 var jwt = require('jsonwebtoken'); 
 var config = require('./config');
 var rp = require('request-promise');
+var encrypt = require('./encryption.js').encrypt;
 
 module.exports = function (schema, options) {
 
@@ -122,7 +123,7 @@ module.exports = function (schema, options) {
       schema
         .path('email')
         .validate(function(value, respond) {
-          return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
+          return Promise.resolve(this.constructor.findOne({phoneNumber: encrypt(value)})).bind(this)
           .then(function(user) {
             // it IS, IN FACT, unique
             if (!user) return respond(true); 
@@ -149,7 +150,7 @@ module.exports = function (schema, options) {
         .path('phoneNumber')
         .validate(function(value, respond) {
           if (value === "+11234567890" || value === "+10987654321") return respond(true); 
-          return Promise.resolve(this.constructor.findOne({phoneNumber: value})).bind(this)
+          return Promise.resolve(this.constructor.findOne({phoneNumber: encrypt(value) })).bind(this)
           .then(function(user) {
             // it IS, IN FACT, unique
             if (!user) return respond(true); 

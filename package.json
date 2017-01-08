@@ -1,12 +1,13 @@
 {
   "name": "@myfintech/myfinmodels",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
-  "author": "ayana@myfin.tech",
+  "author": "ben@myfin.tech",
   "license": "UNLICENSED",
   "dependencies": {
     "@myfintech/mailchimp": "0.0.3",
@@ -27,5 +28,12 @@
     "sendgrid": "^2.0.0",
     "twilio": "^2.9.1",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "jest-cli": "^18.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
+  
 }
