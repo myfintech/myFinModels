@@ -1,13 +1,13 @@
 {
   "name": "@myfintech/myfinmodels",
-  "version": "2.2.2",
+  "version": "2.2.4",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch"
   },
-  "author": "ayana@myfin.tech",
+  "author": "ben@myfin.tech",
   "license": "UNLICENSED",
   "dependencies": {
     "@myfintech/mailchimp": "0.0.3",
