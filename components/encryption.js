@@ -13,7 +13,7 @@ function encrypt (val) {
     return crypted;
 }
 
-
+// encrypts each element in an array of strings
 function encryptArray (arr) {
   if (arr.constructor !== Array) throw 'encryptArray must be passed an array'
   return arr.map(function(val) {
@@ -33,10 +33,24 @@ function decrypt(text) {
   return dec;
 }
 
+function encryptStringify(val) {
+    val = JSON.stringify(val);
+    return encrypt(val)
+}
+
+function decryptParse (text) {
+  text = decrypt(text);
+  return JSON.parse(text);
+}
+
+
+
 module.exports = {
   encrypt: encrypt,
   decrypt: decrypt,
-  encryptArray: encryptArray
+  encryptArray: encryptArray,
+  encryptStringify: encryptStringify,
+  decryptParse: decryptParse,
 }
 
 
