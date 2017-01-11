@@ -17,6 +17,7 @@ var NudgeModule = require("./lib/nudge");
 var Invest = require("./lib/invest");
 var SMSRecordModule = require("./lib/smsRecord");
 var UserCohorts = require("./lib/cohorts");
+var UserPhoneContact = require("./lib/userPhoneContact");
 var ReferralCode = require("./lib/referralCode");
 var QueueModule = require("./lib/queue");
 var Tracked = require("./lib/tracked");
@@ -67,6 +68,7 @@ var models =  {
     Diff: Diff,
     Invest: Invest,
     UserCohorts: UserCohorts,
+    UserPhoneContact: UserPhoneContact,
     ReferralCode: ReferralCode,
     BaseSMSRecord: SMSRecordModule.BaseSMSRecord,
     PayDaySMSRecord: SMSRecordModule.PayDaySMSRecord,

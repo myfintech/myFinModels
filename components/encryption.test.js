@@ -3,6 +3,8 @@ var encryption = require('./encryption');
 var encrypt = encryption.encrypt;
 var decrypt = encryption.decrypt;
 var encryptArray = encryption.encryptArray;
+var encryptStringify = encryption.encryptStringify;
+var decryptParse = encryption.decryptParse;
 var _ = require('lodash');
 
 
@@ -100,7 +102,27 @@ describe('encryption.js', () => {
   })
   
   
-    
+  describe('encryptStringify', () => {
+    test('it should return an encrypted string when passed an object', () => {
+      var obj = {foo: "bar"};
+      var stringObj = JSON.stringify(obj);
+      var encryptedStringObj = encrypt(stringObj);
+      expect(encryptedStringObj).toBe(encryptStringify(obj))
+    })
+  })
+  
+  
+  describe('decryptParse', () => {
+      
+    test('it should decrypt and parse a stringified value', () => {
+      var obj = {foo: "bar"};
+      var stringObj = JSON.stringify(obj);
+      var encryptedStringObj = encrypt(stringObj);
+      expect(JSON.stringify(decryptParse(encryptedStringObj))).toBe(stringObj);
+    })
+      
+  })
+  
 })
 
 
